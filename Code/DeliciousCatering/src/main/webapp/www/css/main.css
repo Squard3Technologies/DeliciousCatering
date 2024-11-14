@@ -21,9 +21,7 @@ body{
     min-height: 100vh;
 }
 
-.main-bg{
-    background-image: url("https://www.printasia.in/media/catalog/product/b/-/b-a-9_catering_services_.jpg") !important;
-}
+
 /*
 .login-box{
     display: flex;

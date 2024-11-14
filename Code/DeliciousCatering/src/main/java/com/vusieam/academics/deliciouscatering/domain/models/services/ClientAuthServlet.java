@@ -77,7 +77,7 @@ public class ClientAuthServlet extends HttpServlet {
         var authResponse = context.clientAuthAsync(username, password);   
         if(authResponse.getStatus()){
             //send the user to the dashboard screen.            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("dashboard.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("clientdashboard.html");
             dispatcher.forward(request, response);
         }
         else{
