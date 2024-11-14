@@ -56,7 +56,7 @@ public class DbContext {
         Connection conn = null;
         try {
             conn = createDbConnection();
-            PreparedStatement statement = conn.prepareStatement("");
+            PreparedStatement statement = conn.prepareStatement("select * from func_clientAuth('"+username+"','"+password+"');");
             ResultSet result = statement.executeQuery();
             if (!result.next()) {
                 response.setCode(404);
@@ -64,6 +64,10 @@ public class DbContext {
                 response.setMessage("Login failed, incorrect username or password");
             } else {
                 ClientModel model = new ClientModel();
+                model.setId(result.getInt("id"));
+                model.setName(result.getString("name"));
+                model.setSurname(result.getString("surname"));
+                model.setDateOfBirth(result.getDate("dateOfBirth"));
 
                 response.setCode(200);
                 response.setStatus(true);
