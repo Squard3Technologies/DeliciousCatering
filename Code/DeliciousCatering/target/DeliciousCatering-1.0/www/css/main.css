@@ -22,6 +22,44 @@ body{
     margin: 0;
 }
 
+.tile-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center; 
+    height: 100vh;
+}
+
+.tile {
+    width: 400px; 
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #007bff;
+    color: white; 
+    font-size: 18px; 
+    font-weight: bold; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer; 
+    transition: transform 0.2s, box-shadow 0.2s; 
+}
+
+.tile:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.btnBooking {
+    background-color: rgb(221, 200, 164);
+}
+
+.btnViewBookings {
+    background-color: rgba(173, 160, 42, 0.856);
+}
+
 
 /*
 .login-box{
