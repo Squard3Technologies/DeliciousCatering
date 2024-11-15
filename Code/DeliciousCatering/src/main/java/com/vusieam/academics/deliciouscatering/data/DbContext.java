@@ -15,86 +15,61 @@ import java.util.logging.Logger;
  * @author Andre, Elias, Vusi
  */
 public class DbContext {
+    
+    private  String dbUrl = "jdbc:postgresql://localhost:5432/deliciouscatering";
+    private  String dbUsername = "prgadmin";
+    private  String dbPassword = "Pass123";  
+    private  String dbDriver = "org.postgresql.Driver";    
 
     public DbContext() {
 
     }
 
     //<editor-fold defaultstate="collapsed" desc="database connection section">
+    
+    /**
+     * Create a database connection.
+     * @return
+     * @throws Exception 
+     */
     public Connection createDbConnection() throws Exception {
         Connection connection;
         try {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/deliciouscatering", "prgadmin", "Pass123");
-        } catch (Exception ex) {
+            Class.forName(dbDriver);
+            connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+        }          
+        catch (SQLException ex) {
+            throw ex;
+        } 
+        catch (Exception ex) {
             throw ex;
         }
         return connection;
     }
 
-    public void closeDbConnection(Connection conn) {
+    
+    
+    /**
+     * Close an open database connection.
+     * @param conn 
+     */
+    public void closeDbConnection(Connection conn) throws Exception {
         try {
             if (!conn.isClosed()) {
                 conn.close();
             }
-        } catch (Exception ex) {
-
+        } 
+        catch (SQLException ex) {
+            throw ex;
+        } 
+        catch (Exception ex) {
+            throw ex;
         }
     }
 
     //</editor-fold>
-    /**
-     * Method to handle user/client login to the system.
-     *
-     * @param username
-     * @param password
-     * @param con
-     * @return
-     */
-    public GenericResponse<ClientModel> clientAuthAsync(String username, String password) {
-        GenericResponse<ClientModel> response = new GenericResponse<>();
-        Connection conn = null;
-        try {
-            conn = createDbConnection();
-            PreparedStatement statement = conn.prepareStatement("select * from func_clientAuth('"+username+"','"+password+"');");
-            ResultSet result = statement.executeQuery();
-            if (!result.next()) {
-                response.setCode(404);
-                response.setStatus(false);
-                response.setMessage("Login failed, incorrect username or password");
-            } else {
-                ClientModel model = new ClientModel();
-                model.setId(result.getInt("id"));
-                model.setName(result.getString("name"));
-                model.setSurname(result.getString("surname"));
-                model.setDateOfBirth(result.getDate("dateOfBirth"));
-
-                response.setCode(200);
-                response.setStatus(true);
-                response.setMessage("Login successful");
-                response.setData(model);
-            }
-        } 
-        catch (SQLException ex) {
-            response.setCode(500);
-            response.setStatus(false);
-            response.setMessage(ex.getMessage());
-        } 
-        catch (Exception ex) {
-            response.setCode(500);
-            response.setStatus(false);
-            response.setMessage(ex.getMessage());
-        } 
-        finally {
-            try {
-                if (!conn.isClosed()) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(DbContext.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return response;
-    }
-
+    
+   
 }
+
+

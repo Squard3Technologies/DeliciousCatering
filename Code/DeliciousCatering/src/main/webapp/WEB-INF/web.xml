@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <servlet>
-        <servlet-name>ClientAuthServlet</servlet-name>
-        <servlet-class>com.vusieam.academics.deliciouscatering.domain.models.services.ClientAuthServlet</servlet-class>
+        <servlet-name>clientAuth</servlet-name>
+        <servlet-class>com.vusieam.academics.deliciouscatering.domain.controllers.ClientAuthServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ClientAuthServlet</servlet-name>
-        <url-pattern>/ClientAuthServlet</url-pattern>
+        <servlet-name>clientAuth</servlet-name>
+        <url-pattern>/clientAuth</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

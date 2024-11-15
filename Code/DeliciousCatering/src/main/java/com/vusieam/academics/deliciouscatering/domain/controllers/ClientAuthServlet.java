@@ -1,7 +1,7 @@
 
-package com.vusieam.academics.deliciouscatering.domain.models.services;
+package com.vusieam.academics.deliciouscatering.domain.controllers;
 
-import com.vusieam.academics.deliciouscatering.data.DbContext;
+import com.vusieam.academics.deliciouscatering.data.ClientsDao;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,13 +9,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Connection;
 
 /**
  *
  * @author vusi
  */
 public class ClientAuthServlet extends HttpServlet {
+    
+    private final ClientsDao dao = new ClientsDao();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -71,10 +72,9 @@ public class ClientAuthServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String username = request.getParameter("txtUsername");
-        String password = request.getParameter("txtPassword");
+        String password = request.getParameter("txtPassword");        
         
-        DbContext context = new DbContext();
-        var authResponse = context.clientAuthAsync(username, password);   
+        var authResponse = dao.clientAuthAsync(username, password);   
         if(authResponse.getStatus()){
             //send the user to the dashboard screen.            
             RequestDispatcher dispatcher = request.getRequestDispatcher("clientdashboard.html");
