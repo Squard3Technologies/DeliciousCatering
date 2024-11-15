@@ -1,149 +1,446 @@
 <!DOCTYPE html>
 <html>
+
     <head>
         <title>Bookings</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link href="www/css/main.css" rel="stylesheet" type="text/css" />
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="https://kit.fontawesome.com/5af2f289c2.js" crossorigin="anonymous"></script>
-         <style>
-            .card{
+        <style>
+            .card {
                 min-height: 300px !important;
                 min-width: 500px !important;
             }
-            .btn-submit{
+
+            .btn-submit {
                 width: 40% !important;
             }
         </style>
-    </head>
+
     <body>
-        <div class="container">
-            <center class="vh-100">
-                <div class="card">
-                    <h4>Book an Event</h4>
-                    <div class="input-group mb-3">
-                        <button type="button" class="btn btn-primary" onclick="window.history.back()">
-                            <span class="fa-solid fa-left-long"></span>
-                        </button>
+        <div class="page-wrapper container-fluid">
+            <div class="content-wrapper" style="background-color: rgba(0, 0, 0, 0.8); margin:0px !important">
+                <div class="page-content fade-in-up">
+                    <nav class="navbar bg-default">
+                        <div class="container-fluid">
+                            <a class="navbar-brand">DELICIOUS CATERINGS</a>
+                            <form class="d-flex" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Search</button>
+                            </form>
+                        </div>
+                    </nav>
+
+                    <div class="page-heading">
+                        <div class="page-breadcrumb">
+                            <h1 class="page-title page-title-sep text-white">Bookings</h1>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a>
+                                        <i class="ti-home font-12 text-white"></i>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item text-white">Bookings New Event</li>
+                            </ol>
+                        </div>
                     </div>
-                    <form>
-                        <div class="input-group mb-3">
-                            <label for="orderDetails">Type of Event</label>
-                            <select name="eventType" id="addressType">
-                                <option value="1">Wedding</option>
-                                <option value="2">Birthday</option>
-                                <option value="3">Baptism</option>
-                                <option value="4">Year End Function</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label>Event Date</label>
-                            <input type="date" name="eventDate" title="Event Date" id="eventDate" class="form-control" />
-                        </div>
-                        <div class="col-md-6">
-                            <label>Event Time</label>
-                            <input type="time" name="eventTime" title="Event Time" id="eventTime" class="form-control" />
-                        </div>
-                        <div class="addressCard">
-                            <label>Address Details</label>
-                            <div class="input-group mb-3">
-                                <label for="addressType">Address Type</label>
-                                <select name="addressType" id="addressType">
-                                    <option value="1">Residential</option>
-                                    <option value="2">Business</option>
-                                </select>
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-house"></i></span>
-                                <input type="text" name="txtStreetNo" class="form-control" placeholder="Street Number" aria-label="fax" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-road"></i></span>
-                                <input type="text" name="txtStreetName" class="form-control" placeholder="Street Name" aria-label="streetName" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-building"></i></span>
-                                <input type="text" name="txtComplex" class="form-control" placeholder="Complex/Building" aria-label="complex" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-location-dot"></i></span>
-                                <input type="text" name="txtSuburb" class="form-control" placeholder="Suburb" aria-label="suburb" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-tree-city"></i></span>
-                                <input type="text" name="txtCity" class="form-control" placeholder="City" aria-label="city" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-location-arrow"></i></span>
-                                <input type="text" name="txtZip" class="form-control" placeholder="Zip Code" aria-label="zip" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-location-dot"></i></span>
-                                <input type="text" name="txtProvince" class="form-control" placeholder="Province" aria-label="province" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-flag"></i></span>
-                                <input type="text" name="txtCountry" class="form-control" placeholder="Country" aria-label="Country" aria-describedby="basic-addon1">
+
+                    <div class="card">
+                        <div class="card-header text-primary">
+                            <div class="row">
+                                <div class="col-lg-11 col-md-11 text-center text-uppercase">
+                                    <h4>Create a Booking</h4>
+                                </div>
+                                <div class="col-lg-1 col-md-1">
+                                    <button type="button" class="btn btn-outline-primary float-end"
+                                            onclick="window.history.back()">
+                                        <span class="fa-solid fa-left-long"></span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <div class="ContactCard">
-                            <label>Contact Details</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-envelope"></i></span>
-                                <input type="email" name="txtEmail" class="form-control" placeholder="Email" aria-label="cell" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-mobile"></i></span>
-                                <input type="text" name="txtCell" class="form-control" placeholder="Cell Number" aria-label="cell" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-phone"></i></span>
-                                <input type="text" name="txtTelNo" class="form-control" placeholder="Telephone Number" aria-label="telNo" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-fax"></i></span>
-                                <input type="text" name="txtFax" class="form-control" placeholder="Fax Number" aria-label="fax" aria-describedby="basic-addon1">
-                            </div>
+
+                        <div class="card-body">
+                            <form action="createEvent" method="post">
+                                <div class="row"> 
+                                    <div class="col-md-8 mb-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h5 class="box-title mb-2">Event Details</h5>
+                                                        <div class="mb-3 text-muted font-13">Enter event details</div>
+                                                        <hr />
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <label for="txtEventType" class="form-label">Type of Event
+                                                                    <span class="text-danger">*</span></label>
+                                                                <div class="input-group mb-3">
+                                                                    <select class="form-select" id="txtEventType"
+                                                                            name="txtEventType" required>
+                                                                        <option selected>Choose event type</option>
+                                                                        <option value="1">Wedding</option>
+                                                                        <option value="2">Birthday</option>
+                                                                        <option value="3">Baptism</option>
+                                                                        <option value="4">Year End Function</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="eventDate" class="form-label">Event Date<span
+                                                                        class="text-danger">*</span></label>
+                                                                <div class="input-group mb-3">
+                                                                    <input type="date" name="eventDate" title="Event Date"
+                                                                           id="eventDate" class="form-control" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="eventTime" class="form-label">Event Time<span
+                                                                        class="text-danger">*</span></label>
+                                                                <div class="input-group mb-3">
+                                                                    <input type="time" name="eventTime" title="Event Time"
+                                                                           id="eventTime" class="form-control" />
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="col-md-8">
+                                                                <div class="col-md-8">
+                                                                    <label class="form-label">Number of People attending
+                                                                        event</label>
+                                                                    <div class="input-group mb-3">
+                                                                        <span class="input-group-text" id="basic-addon2"><i
+                                                                                class="fa-solid fa-person"></i></span>
+                                                                        <input type="number" name="txtAdults" class="form-control"
+                                                                               placeholder="Number of Adults" aria-label="adults"
+                                                                               aria-describedby="basic-addon1" min="0">
+                                                                    </div>
+                                                                    <div class="input-group mb-3">
+                                                                        <span class="input-group-text" id="basic-addon2"><i
+                                                                                class="fa-solid fa-child"></i></span>
+                                                                        <input type="number" name="txtKids" class="form-control"
+                                                                               placeholder="Number of Kids" aria-label="kids"
+                                                                               aria-describedby="basic-addon1" min="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <h5 class="box-title mb-2">Contact Details</h5>
+                                                        <div class="mb-3 text-muted font-13">Enter details to use when
+                                                            accessing system</div>
+                                                        <hr />
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label for="txtEmail" class="form-label">Email Address <span
+                                                                class="text-danger">*</span></label>
+                                                        <div class="input-group mb-3">
+                                                            <input type="email" name="txtEmail" class="form-control"
+                                                                   placeholder="Email" required>
+                                                            <span class="input-group-text"><i
+                                                                    class="fa-solid fa-envelope"></i></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label for="txtCell" class="form-label">Mobile Number <span
+                                                                class="text-danger">*</span></label>
+                                                        <div class="input-group mb-3">
+                                                            <input type="text" name="txtCell" class="form-control"
+                                                                   placeholder="Cell Number" required>
+                                                            <span class="input-group-text"><i
+                                                                    class="fa-solid fa-mobile"></i></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <label for="txtTelNo" class="form-label">Telephone Number</label>
+                                                        <div class="input-group mb-3">
+                                                            <input type="text" name="txtTelNo" class="form-control"
+                                                                   placeholder="Telephone Number">
+                                                            <span class="input-group-text"><i
+                                                                    class="fa-solid fa-phone"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h5 class="box-title mb-2">Address Details</h5>
+                                                    <div class="mb-3 text-muted font-13">Enter details to use when accessing
+                                                        system </div>
+                                                    <hr />
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="txtAddressType" class="form-label">Address type <span
+                                                            class="text-danger">*</span></label>
+                                                    <div class="input-group mb-3">
+                                                        <select class="form-select" id="txtAddressType"
+                                                                name="txtAddressType" required>
+                                                            <option selected>Choose address type</option>
+                                                            <option value="2">Business</option>
+                                                            <option value="1">Residential</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-8"></div>
+
+                                                <div class="col-md-4">
+                                                    <label for="txtStreetNo" class="form-label">Street Number <span
+                                                            class="text-danger">*</span></label>
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text"><i
+                                                                class="fa-solid fa-house"></i></span>
+                                                        <input type="text" name="txtStreetNo" class="form-control"
+                                                               placeholder="Street Number">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="txtStreetName" class="form-label">Street Name <span
+                                                            class="text-danger">*</span></label>
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text"><i
+                                                                class="fa-solid fa-house"></i></span>
+                                                        <input type="text" name="txtStreetName" class="form-control"
+                                                               placeholder="Street Name">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="txtComplex" class="form-label">Complex/Building Name</label>
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text"><i
+                                                                class="fa-solid fa-house"></i></span>
+                                                        <input type="text" name="txtComplex" class="form-control"
+                                                               placeholder="Complex/Building Name">
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-4">
+                                                    <label for="txtSuburb" class="form-label">Suburb</label>
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text"><i
+                                                                class="fa-solid fa-location-dot"></i></span>
+                                                        <input type="text" name="txtSuburb" class="form-control"
+                                                               placeholder="Suburb">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="txtCity" class="form-label">City <span
+                                                            class="text-danger">*</span></label>
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text"><i
+                                                                class="fa-solid fa-tree-city"></i></span>
+                                                        <input type="text" name="txtCity" class="form-control"
+                                                               placeholder="City">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="txtZip" class="form-label">Zip Code <span
+                                                            class="text-danger">*</span></label>
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text"><i
+                                                                class="fa-solid fa-location-arrow"></i></span>
+                                                        <input type="text" name="txtZip" class="form-control"
+                                                               placeholder="Zip Code">
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="col-md-4">
+                                                    <label for="txtProvince" class="form-label">Province <span
+                                                            class="text-danger">*</span></label>
+                                                    <div class="input-group mb-3">
+                                                        <select class="form-select" id="txtProvince" name="txtProvince"
+                                                                required>
+                                                            <option selected>Choose province</option>
+                                                            <option value="Eastern Cape">Eastern Cape</option>
+                                                            <option value="Free States">Free States</option>
+                                                            <option value="Gauteng">Gauteng</option>
+                                                            <option value="Kwazulu Natal">Kwazulu Natal</option>
+                                                            <option value="Limpopo">Limpopo</option>
+                                                            <option value="Mpumalanga">Mpumalanga</option>
+                                                            <option value="Northern Cape">Northern Cape</option>
+                                                            <option value="North West">North West</option>
+                                                            <option value="Western Cape">Western Cape</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="txtCountry" class="form-label">Country <span
+                                                            class="text-danger">*</span></label>
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text"><i
+                                                                class="fa-solid fa-flag"></i></span>
+                                                        <input type="text" name="txtCountry" class="form-control"
+                                                               placeholder="Country">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h5 class="box-title mb-2">Menu Selection</h5>
+                                                    <hr />
+                                                </div>
+
+                                                <label class="form-label">Adult Meals <span class="text-danger"></span></label>
+
+                                                <div class="col-md-4 mb-3">
+                                                    <div class="card">
+                                                        <h5 class="card-title" style="padding-top: 5px;">
+                                                            <input type="checkbox" id="tacos" name="chkTacos" value="tacos"> Tacos
+                                                        </h5>
+                                                        <img src="src/tacos.jpg" class="card-img-top" alt="Tacos">
+                                                        <div class="card-body">
+                                                            <p class="card-text">Soft or crispy tortillas filled with your choice of flavorful protein, fresh vegetables, zesty salsa, and a hint of lime. A classic Mexican delight, perfect for any craving!</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 mb-3">
+                                                    <div class="card">
+                                                        <h5 class="card-title" style="padding-top: 5px;">
+                                                            <input type="checkbox" id="ChickenWraps" name="chkWraps" value="ChickenWraps"> Cheesy Chicken Wraps
+                                                        </h5>
+                                                        <img src="src/chickenWrap.jpg" class="card-img-top" alt="Chicken Wraps">
+                                                        <div class="card-body">
+                                                            <p class="card-text">A savory combination of tender chicken, crispy bacon, creamy cheese, and a touch of tangy ranch seasoning, wrapped to perfection. A comforting and satisfying flavor explosion!</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 mb-3">
+                                                    <div class="card">
+                                                        <h5 class="card-title" style="padding-top: 5px;">
+                                                            <input type="checkbox" id="chickenKebabs" name="chkChickenKebabs" value="chickenKebabs"> Hawaiian Chicken Kebabs
+                                                        </h5>
+                                                        <img src="src/kebabs.jpg" class="card-img-top" alt="Chicken Kebabs">
+                                                        <div class="card-body">
+                                                            <p class="card-text">Juicy chicken chunks marinated in a sweet and tangy glaze, skewered with vibrant pineapple, bell peppers, and onions. Grilled to perfection, these kebabs offer a tropical burst of flavor in every bite!</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <label class="form-label">Kids Meals <span class="text-danger"></span></label>
+
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <h5 class="card-title" style="padding-top: 5px;">
+                                            <input type="checkbox" id="cornDogs" name="chkCornDogs" value="cornDogs"> Corn Dogs
+                                        </h5>
+                                        <img src="src/cornDogs.jpg" class="card-img-top" alt="Corn Dogs">
+                                        <div class="card-body">
+                                            <p class="card-text">A fun and tasty treat for little ones! Enjoy a crispy, golden-brown cornmeal batter wrapped around a juicy hot dog, served on a stick for easy eating. Perfectly sized for kids, these Corn Dogs are a delicious and easy-to-hold snack that everyone will love!</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <h5 class="card-title" style="padding-top: 5px;">
+                                            <input type="checkbox" id="miniPizza" name="chkMiniPizza" value="miniPizza"> Mini Pizza
+                                        </h5>
+                                        <img src="src/miniPizza.jpg" class="card-img-top" alt="Mini Pizza">
+                                        <div class="card-body">
+                                            <p class="card-text">Delicious, bite-sized pizzas topped with savory tomato sauce, melted cheese, and your choice of toppings! Perfectly sized for little hands, these mini pizzas are a fun and tasty treat that kids will enjoy. Great for a quick meal or a snack!</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <h5 class="card-title" style="padding-top: 5px;">
+                                            <input type="checkbox" id="sliders" name="chkSliders" value="sliders"> sliders
+                                        </h5>
+                                        <img src="src/sliders.jpg" class="card-img-top" alt="Sliders">
+                                        <div class="card-body">
+                                            <p class="card-text">Juicy, tender mini burgers served on soft buns with cheese and a choice of ketchup or mustard. Perfectly sized for little appetites, these sliders are a fun and delicious choice for kids. Ideal for a quick bite or as part of a meal they’ll love!</p>
+                                        </div>
+                                    </div>
+                                </div>
+
                         </div>
-                        <div class="peopleCard">
-                            <label>Number of People attending event</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-person"></i></span>
-                                <input type="number" name="txtAdults" class="form-control" placeholder="Number of Adults" aria-label="adults" aria-describedby="basic-addon1" min="0">
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-child"></i></span>
-                                <input type="number" name="txtKids" class="form-control" placeholder="Number of Kids" aria-label="kids" aria-describedby="basic-addon1" min="0">
-                            </div>
-                        </div>
-                        <label>Menu</label>
-                        <div class="foodCard">
-                            <input type="checkbox" id="adultFood" name="chkAdultFood" value="adultFood">
-                            <label for="adultFood">Adult Food</label><br>
-                            <input type="checkbox" id="kidsFood" name="chkKidsFood" value="kidsFood">
-                            <label for="kidsFood">Kids Food</label><br>
-                            <input type="checkbox" id="drinks" name="chkDrinks" value="drinks">
-                            <label for="drinks">Drinks</label><br>
-                            <input type="checkbox" id="dessert" name="chkDessert" value="dessert">
-                            <label for="dessert">Dessert</label><br>
-                        </div>
-                        <div class="decorCard">
-                            <label>Decorations</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text" id="basic-addon2"><i class="fa-solid fa-masks-theater"></i></span>
-                                <input type="text" name="txtDecor" class="form-control" placeholder="Theme" aria-label="decorType" aria-describedby="basic-addon1">
-                            </div>
-                        </div>
-                        <div class="card">
-                            <button type="button" name="btnCreateBooking" class="btn btn-primary">Create Booking</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </center>
-        </div>
-    </body>
+            </div>
+
+
+
+
+            <div class="col-md-12 text-center mb-5">
+                <button type="submit" class="btn btn-success btn-submit">
+                    Create Booking &nbsp;
+                    <i class="fa-solid fa-box-archive"></i>
+                </button>
+            </div>
+
+
+        </form>
+    </div>
+
+
+
+
+
+</div>
+
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="www/js/sweetalert.js" type="text/javascript"></script>
+<script src="www/js/main.js" type="text/javascript"></script>
+<script src="https://kit.fontawesome.com/5af2f289c2.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+crossorigin="anonymous"></script>
+</body>
+
 </html>
