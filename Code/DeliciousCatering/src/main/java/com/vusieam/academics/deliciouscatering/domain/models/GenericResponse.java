@@ -7,9 +7,9 @@ import java.util.List;
  * @author vusi
  */
 public class GenericResponse<T> {
-    private Integer code;
-    private Boolean status;
-    private String message;    
+    private Integer code = 0;
+    private Boolean status = false;
+    private String message = "";    
     private List<T> dataList;
     private T data;
 
