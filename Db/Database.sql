@@ -371,73 +371,80 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE PROCEDURE sp_createAccount
+CREATE OR REPLACE PROCEDURE md_createAccount
 (
-   fname VARCHAR(250),
-   fsurname VARCHAR(250),
-   fdateOfBirth DATE,
-   fpasscode VARCHAR(50),
-   fsecuredPwd VARCHAR (500),
-   femail VARCHAR (500),  
-   fcell VARCHAR (500),
-   fphone VARCHAR (500) DEFAULT null,
-   INOUT fclientId BIGINT DEFAULT -1,
-   INOUT responseStatus BOOLEAN DEFAULT false,
-   INOUT responseCode BIGINT DEFAULT 0,
-   INOUT responseMessage VARCHAR (500) DEFAULT ''
+   IN fname VARCHAR(250),
+   IN fsurname VARCHAR(250),
+   IN fdateOfBirth TIMESTAMP,
+   IN fpasscode VARCHAR(50),
+   IN fsecuredPwd VARCHAR (500),
+   IN femail VARCHAR (50),  
+   IN fcell VARCHAR (50),
+   IN fphone VARCHAR (50),
+   INOUT fclientId VARCHAR(50),
+   INOUT responseStatus VARCHAR(50),
+   INOUT responseCode VARCHAR(50),
+   INOUT responseMessage VARCHAR(500)
 )
 LANGUAGE plpgsql
 AS $$
+DECLARE
+		pfclientId BIGINT;
+		--presponseStatus BOOLEAN;
+		--presponseCode BIGINT;
+		--responseMessage VARCHAR (500);
 BEGIN
     SELECT p.clientId 
 	FROM phones p 
-	INTO fclientId 
+	INTO pfclientId 
 	WHERE (p.phoneNumber = fcell OR p.phoneNumber = fphone);
-	
-	IF fclientId IS NULL OR fclientId < 1 THEN
+
+	IF pfclientId IS NULL OR pfclientId < 1 THEN
 	
 		INSERT INTO clients("name", surname, dateofbirth, passcode, securepwd)
 		VALUES(fname, fsurname, fdateOfBirth, fpasscode, fsecuredpwd)
-		RETURNING id INTO fclientId;
+		RETURNING id INTO pfclientId;
 
 		RAISE NOTICE 'Client Id % has been added', 
-		fclientId; 
+		pfclientId; 
 
 		IF fcell IS NOT NULL THEN
 			INSERT INTO phones(clientid, phonetypeid, phonenumber, isprimary)
-			SELECT fclientId, 1, fcell, true
+			SELECT pfclientId, 1, fcell, true
 			WHERE
 			NOT EXISTS 
 			(
-				SELECT id FROM phones p WHERE p.clientId = fclientId AND p.phonetypeid = 1
+				SELECT id FROM phones p WHERE p.clientId = pfclientId AND p.phonetypeid = 1
 			);
 		END IF;
 
 		IF fphone IS NOT NULL THEN
 			INSERT INTO phones(clientid, phonetypeid, phonenumber, isprimary)
-			SELECT fclientId, 2, fphone, false
+			SELECT pfclientId, 2, fphone, false
 			WHERE
 			NOT EXISTS 
 			(
-				SELECT id FROM phones p WHERE p.clientId = fclientId AND p.phonetypeid = 2
+				SELECT id FROM phones p WHERE p.clientId = pfclientId AND p.phonetypeid = 2
 			);
 		END IF;
 
+		fclientId := pfclientId;
 		responseStatus := true;
-		responseCode := 200;
+		responseCode := 200;		
 		responseMessage := 'Successfully created account';
 		RAISE NOTICE 'Successfully created account with Id %', 
-		fclientId; 
+		pfclientId; 
 		
 	ELSE
 	
+		fclientId := pfclientId;
 		responseStatus := false;
 		responseCode := 409;
 		responseMessage := 'Account any of the provided phones already exists';
 		RAISE NOTICE 'Account any of the provided phones (cell % or phone %) already exists with Id %', 
 		fcell, 
 		fphone,
-		fclientId;
+		pfclientId;
 		
 	END IF;
     COMMIT;
