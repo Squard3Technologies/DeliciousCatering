@@ -11,6 +11,7 @@
     box-sizing: border-box;
     font-family: 'Poppins',sans-serif;
 }
+
 body{
     background-image: url("https://img.freepik.com/premium-photo/elegant-new-year-s-day-doodle-page-print-border-design-with-blank-empty-space-mock-up-background_938957-44600.jpg") !important;
     background-repeat: no-repeat !important;
@@ -21,6 +22,11 @@ body{
     min-height: 100vh;
     margin: 0;
 }
+
+.form-check-input{
+    border: solid 1px #000000 !important;
+}
+
 
 .tile-container {
     display: flex;
@@ -58,6 +64,10 @@ body{
 
 .btnViewBookings {
     background-color: rgba(173, 160, 42, 0.856);
+}
+
+.food-menu-img{
+    height: 150px !important;
 }
 
 

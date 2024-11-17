@@ -4,9 +4,25 @@
         <servlet-name>clientAuth</servlet-name>
         <servlet-class>com.vusieam.academics.deliciouscatering.domain.controllers.ClientAuthServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>createAccount</servlet-name>
+        <servlet-class>com.vusieam.academics.deliciouscatering.domain.controllers.CreateAccountController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>bookings</servlet-name>
+        <servlet-class>com.vusieam.academics.deliciouscatering.domain.controllers.BookingsController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>clientAuth</servlet-name>
         <url-pattern>/clientAuth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>createAccount</servlet-name>
+        <url-pattern>/createAccount</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>bookings</servlet-name>
+        <url-pattern>/bookings</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
