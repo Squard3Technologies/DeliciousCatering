@@ -1,5 +1,8 @@
 package com.vusieam.academics.deliciouscatering.domain.controllers;
 
+import com.google.gson.Gson;
+import com.vusieam.academics.deliciouscatering.domain.models.ClientDetails;
+import com.vusieam.academics.deliciouscatering.domain.models.GenericResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -67,7 +70,19 @@ public class BookingsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try{
+            
+        }
+        catch (Exception ex) {
+            GenericResponse<ClientDetails> createResponse = new GenericResponse();
+            createResponse.setStatus(false);
+            createResponse.setCode(500);
+            createResponse.setMessage(ex.getMessage() + "<br/>" + ex.getStackTrace());
+            String json = new Gson().toJson(createResponse);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+        }
     }
 
     /**
