@@ -1,5 +1,32 @@
 $(document).ready(function () {
 
+
+
+//    $("#eventDate").datepicker({
+//        //changeMonth: true,
+//        //changeYear: true,
+//        //dateFormat: 'yy-mm-dd',
+//        //constrainInput: true,
+//        startDate: new Date(),
+//        autoclose: true,
+//        format: 'yyyy-mm-dd',
+//        defaultDate: new Date()
+//    });
+
+    $("#eventDate").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'yy-mm-dd',
+        constrainInput: true,
+        minDate: new Date(2023, 03, 01),
+        maxDate: new Date(2024, 11, 31)
+    });
+
+    $('#eventTime').timepicker({
+        'showDuration': true,
+        'timeFormat': 'HH:mm'
+    });
+
     $("#frmCreateAccount").on('submit', function () {
         debugger;
         const frm = $(this);
