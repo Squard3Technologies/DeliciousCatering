@@ -12,26 +12,41 @@
         <script src="https://kit.fontawesome.com/5af2f289c2.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <div class="container">
-            <center class="vh-100">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Dashboard</h4>
-                        <div class="input-group mb-3">
-                            <button type="button" class="btn btn-primary" onclick="window.location.href = './'">Sign Out <span class="fa-solid fa-right-from-bracket"></span></button>
-                        </div>
+        <div class="page-wrapper container-fluid">
 
+            <div class="content-wrapper" style="margin:0px !important">
+                <div class="page-content fade-in-up">
+                    <nav class="navbar bg-white">
+                        <div class="container-fluid">
+                            <a class="navbar-brand text-primary">DELICIOUS CATERINGS</a>
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <label class="d-inline-flex align-items-center">
+                                        <span class="d-none d-sm-inline-block mr-2">Vusi Malinga</span>                                        
+                                    </label>
+                                    &nbsp;&nbsp;
+                                    <a class="btn btn-outline-danger">
+                                        <span class="btn-icon">
+                                            <i class="ft-power mr-2 font-18"></i>Logout
+                                        </span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </nav>
+
+                    <div class="tile-container dashboard">
+                        <div class="tile btnBooking"  onclick="window.location.href = './booking.html';">
+                            <i class="fa-solid fa-book text-white"></i>
+                            <label>Make a Booking</label>
+                        </div>
+                        <div class="tile btnViewBookings text-white" onclick="window.location.href = './viewBookings.html';">
+                            <i class="fa-solid fa-book-open"></i>
+                            <label>View Bookings</label>
+                        </div>
                     </div>
                 </div>
-                <div class="tile-container dashboard">
-                    <div class="tile btnBooking"  onclick="window.location.href = './booking.html';">
-                        <label>Make a Booking</label>
-                    </div>
-                    <div class="tile btnViewBookings" onclick="window.location.href = './viewBookings.html';">
-                        <label>View Bookings</label>
-                    </div>
-                </div>
-            </center>
-        </div>
+            </div>
     </body>
 </html>
