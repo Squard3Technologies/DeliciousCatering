@@ -127,15 +127,13 @@ public class BookingsController extends HttpServlet {
             model.setMenuDessertDonuts(chbxDessertDonuts);
             model.setMenuDessertMalva(chbxDessertMalva);
             model.setMenuDessertBerry(chbxDessertBerry);
-
             GenericResponse<BookingModel> createResponse = dao.createBooking(model, client.getId());
-
             String json = new Gson().toJson(createResponse);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(json);
-            
-        } catch (Exception ex) {
+            response.getWriter().write(json);            
+        } 
+        catch (Exception ex) {
             GenericResponse<ClientDetails> createResponse = new GenericResponse();
             createResponse.setStatus(false);
             createResponse.setCode(500);

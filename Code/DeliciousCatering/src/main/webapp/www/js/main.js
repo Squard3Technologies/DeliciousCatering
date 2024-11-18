@@ -1,18 +1,6 @@
 $(document).ready(function () {
 
 
-
-//    $("#eventDate").datepicker({
-//        //changeMonth: true,
-//        //changeYear: true,
-//        //dateFormat: 'yy-mm-dd',
-//        //constrainInput: true,
-//        startDate: new Date(),
-//        autoclose: true,
-//        format: 'yyyy-mm-dd',
-//        defaultDate: new Date()
-//    });
-
     $("#eventDate").datepicker({
         changeMonth: true,
         changeYear: true,
@@ -47,7 +35,6 @@ $(document).ready(function () {
             type: "POST",
             contentType: "application/x-www-form-urlencoded",
             data: params,
-            //contentType: "application/json; charset=utf-8",
             dataType: "json",
             async: true,
             cache: false,
@@ -107,7 +94,7 @@ $(document).ready(function () {
 
 
 
-    $("frmBookings").on('submit', function () {
+    $("#frmBookings").on('submit', function () {
         debugger;
         const frm = $(this);
         let url = frm.attr("action");
@@ -183,8 +170,6 @@ $(document).ready(function () {
         });
         event.preventDefault();
     });
-
-
 
 
 });
