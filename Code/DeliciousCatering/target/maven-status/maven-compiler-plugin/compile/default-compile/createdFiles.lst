@@ -1,10 +1,11 @@
-com\vusieam\academics\deliciouscatering\domain\controllers\ClientAuthServlet.class
 com\vusieam\academics\deliciouscatering\data\DbContext.class
-com\vusieam\academics\deliciouscatering\domain\models\GenericResponse.class
+com\vusieam\academics\deliciouscatering\domain\controllers\ClientAuthServlet.class
 com\vusieam\academics\deliciouscatering\JakartaRestConfiguration.class
-com\vusieam\academics\deliciouscatering\domain\models\AddressModel.class
 com\vusieam\academics\deliciouscatering\data\ClientsDao.class
+com\vusieam\academics\deliciouscatering\domain\models\ClientDetails.class
+com\vusieam\academics\deliciouscatering\domain\models\GenericResponse.class
+com\vusieam\academics\deliciouscatering\domain\controllers\BookingsController.class
+com\vusieam\academics\deliciouscatering\domain\models\AddressModel.class
 com\vusieam\academics\deliciouscatering\domain\controllers\CreateAccountController.class
 com\vusieam\academics\deliciouscatering\domain\models\ClientModel.class
-com\vusieam\academics\deliciouscatering\domain\models\ClientDetails.class
 com\vusieam\academics\deliciouscatering\resources\JakartaEE10Resource.class
