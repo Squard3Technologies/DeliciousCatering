@@ -14,7 +14,7 @@ import java.sql.Time;
 public class BookingModel {
     
     private Integer id;
-    private String typeofEvent;
+    private Integer typeofEvent;
     private Date eventDate;
     private Time eventTime;
     private Integer attendingAdults;
@@ -49,6 +49,14 @@ public class BookingModel {
     private Boolean menuDrinksCocacola;
     private Boolean menuDrinksApricotJuice;
     
+    //Dessert
+    private Boolean menuDessertOreoPudding;
+    private Boolean menuDessertOreoBalls;
+    private Boolean menuDessertChurros;
+    private Boolean menuDessertDonuts;
+    private Boolean menuDessertMalva;
+    private Boolean menuDessertBerry;
+    
     
     private Boolean decorNeeded;
     private String themeDetails;
@@ -56,7 +64,7 @@ public class BookingModel {
     private String totalCost;
     private String stage;
     private Date creationDate;
-    
+
     
     
 
@@ -68,11 +76,11 @@ public class BookingModel {
         this.id = id;
     }
 
-    public String getTypeofEvent() {
+    public Integer getTypeofEvent() {
         return typeofEvent;
     }
 
-    public void setTypeofEvent(String typeofEvent) {
+    public void setTypeofEvent(Integer typeofEvent) {
         this.typeofEvent = typeofEvent;
     }
 
@@ -307,5 +315,94 @@ public class BookingModel {
     public void setMenuDrinksApricotJuice(Boolean menuDrinksApricotJuice) {
         this.menuDrinksApricotJuice = menuDrinksApricotJuice;
     }
+    
+    public Boolean getMenuDessertOreoPudding() {
+        return menuDessertOreoPudding;
+    }
+
+    public void setMenuDessertOreoPudding(Boolean menuDessertOreoPudding) {
+        this.menuDessertOreoPudding = menuDessertOreoPudding;
+    }
+
+    public Boolean getMenuDessertOreoBalls() {
+        return menuDessertOreoBalls;
+    }
+
+    public void setMenuDessertOreoBalls(Boolean menuDessertOreoBalls) {
+        this.menuDessertOreoBalls = menuDessertOreoBalls;
+    }
+
+    public Boolean getMenuDessertChurros() {
+        return menuDessertChurros;
+    }
+
+    public void setMenuDessertChurros(Boolean menuDessertChurros) {
+        this.menuDessertChurros = menuDessertChurros;
+    }
+
+    public Boolean getMenuDessertDonuts() {
+        return menuDessertDonuts;
+    }
+
+    public void setMenuDessertDonuts(Boolean menuDessertDonuts) {
+        this.menuDessertDonuts = menuDessertDonuts;
+    }
+
+    public Boolean getMenuDessertMalva() {
+        return menuDessertMalva;
+    }
+
+    public void setMenuDessertMalva(Boolean menuDessertMalva) {
+        this.menuDessertMalva = menuDessertMalva;
+    }
+
+    public Boolean getMenuDessertBerry() {
+        return menuDessertBerry;
+    }
+
+    public void setMenuDessertBerry(Boolean menuDessertBerry) {
+        this.menuDessertBerry = menuDessertBerry;
+    }
+
+    public Boolean getDecorNeeded() {
+        return decorNeeded;
+    }
+
+    public void setDecorNeeded(Boolean decorNeeded) {
+        this.decorNeeded = decorNeeded;
+    }
+
+    public String getThemeDetails() {
+        return themeDetails;
+    }
+
+    public void setThemeDetails(String themeDetails) {
+        this.themeDetails = themeDetails;
+    }
+
+    public String getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(String totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public String getStage() {
+        return stage;
+    }
+
+    public void setStage(String stage) {
+        this.stage = stage;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+    
     
 }

@@ -54,7 +54,7 @@ public class ClientAuthServlet extends HttpServlet {
         if(authResponse.getStatus()){
             String sessionUserJson = new Gson().toJson(authResponse.getData());
             HttpSession session=request.getSession();  
-            session.setAttribute("user",sessionUserJson);  
+            session.setAttribute("clientProfile",sessionUserJson);  
         }
         String json = new Gson().toJson(authResponse);
         response.setContentType("application/json");

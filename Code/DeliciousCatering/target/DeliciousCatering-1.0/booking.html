@@ -17,17 +17,27 @@
         <div class="page-wrapper container-fluid">
             <div class="content-wrapper" style="background-color: rgba(0, 0, 0, 0.8); margin:0px !important">
                 <div class="page-content fade-in-up">
-                    <nav class="navbar bg-default">
+                    <nav class="navbar bg-white">
                         <div class="container-fluid">
-                            <a class="navbar-brand">DELICIOUS CATERINGS</a>
-                            <form class="d-flex" role="search">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success" type="submit">Search</button>
-                            </form>
+                            <a class="navbar-brand text-primary">DELICIOUS CATERINGS</a>
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <label class="d-inline-flex align-items-center">
+                                        <span class="d-none d-sm-inline-block mr-2">Vusi Malinga</span>                                        
+                                    </label>
+                                    &nbsp;&nbsp;
+                                    <a class="btn btn-outline-danger">
+                                        <span class="btn-icon">
+                                            <i class="ft-power mr-2 font-18"></i>Logout
+                                        </span>
+                                    </a>
+                                </li>
+
+                            </ul>
                         </div>
                     </nav>
 
-                    <div class="page-heading">
+                    <div class="page-heading p-3">
                         <div class="page-breadcrumb">
                             <h1 class="page-title page-title-sep text-white">Bookings</h1>
                             <ol class="breadcrumb">
@@ -77,13 +87,14 @@
                                                                     <select class="form-select" id="txtEventType"
                                                                             name="txtEventType" required>
                                                                         <option selected>Choose event type</option>
-                                                                        <option value="1">Wedding</option>
+                                                                        <option value="1">Baptism</option>
                                                                         <option value="2">Birthday</option>
-                                                                        <option value="3">Baptism</option>
+                                                                        <option value="3">Wedding</option>
                                                                         <option value="4">Year End Function</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
+                                                            <div class="col-md-6"></div>
                                                             <div class="col-md-6">
                                                                 <label for="eventDate" class="form-label">Event Date<span
                                                                         class="text-danger">*</span></label>
@@ -102,8 +113,8 @@
                                                             </div>
 
 
-                                                            <div class="col-md-8">
-                                                                <div class="col-md-8">
+                                                            <div class="col-md-6">
+                                                                <div class="col-md-12">
                                                                     <label class="form-label">Number of People attending
                                                                         event</label>
                                                                     <div class="input-group mb-3">
@@ -111,17 +122,36 @@
                                                                                 class="fa-solid fa-person"></i></span>
                                                                         <input type="number" name="txtAdults" class="form-control"
                                                                                placeholder="Number of Adults" aria-label="adults"
-                                                                               aria-describedby="basic-addon1" min="0">
+                                                                               aria-describedby="basic-addon1" min="0" value="0">
                                                                     </div>
                                                                     <div class="input-group mb-3">
                                                                         <span class="input-group-text" id="basic-addon2"><i
                                                                                 class="fa-solid fa-child"></i></span>
                                                                         <input type="number" name="txtKids" class="form-control"
                                                                                placeholder="Number of Kids" aria-label="kids"
-                                                                               aria-describedby="basic-addon1" min="0">
+                                                                               aria-describedby="basic-addon1" min="0" value="0">
                                                                     </div>
                                                                 </div>
                                                             </div>
+
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-check">
+                                                                    <label class="form-check-label" for="chbxDecorationNeeded">
+                                                                        Decoration needed (provide theme details below)
+                                                                    </label>
+                                                                    <input class="form-check-input" type="checkbox" id="chbxDecorationNeeded" name="chbxDecorationNeeded">
+                                                                </div>
+                                                                <div class="input-group mb-3">
+                                                                    <textarea name="txtThemeDetails" class="form-control"
+                                                                              placeholder="Theme details" rows="4">
+
+                                                                    </textarea>
+                                                                </div>
+
+                                                            </div>
+
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -201,7 +231,9 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-8"></div>
+                                                <div class="col-md-8 text-end p-1">                                                    
+                                                    <button type="button" class="btn btn-outline-warning" >Use linked Address</button>
+                                                </div>
 
                                                 <div class="col-md-4">
                                                     <label for="txtStreetNo" class="form-label">Street Number <span
@@ -328,7 +360,7 @@
                                                                 <label class="form-check-label" for="chbxAdultMenuTacos">
                                                                     Choose Menu
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxAdultMenuTacos">
+                                                                <input class="form-check-input" type="checkbox" id="chbxAdultMenuTacos" name="chbxAdultMenuTacos">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -346,7 +378,7 @@
                                                                 <label class="form-check-label" for="chbxAdultMenuChickenWrap">
                                                                     Choose Menu
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxAdultMenuChickenWrap">
+                                                                <input class="form-check-input" type="checkbox" id="chbxAdultMenuChickenWrap" name="chbxAdultMenuChickenWrap">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -364,7 +396,7 @@
                                                                 <label class="form-check-label" for="chbxAdultMenuChickenKebab">
                                                                     Choose Menu
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxAdultMenuChickenKebab">
+                                                                <input class="form-check-input" type="checkbox" id="chbxAdultMenuChickenKebab" name="chbxAdultMenuChickenKebab">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -397,7 +429,7 @@
                                                                 <label class="form-check-label" for="chbxKidsMenuMiniPizzaCheese">
                                                                     Choose Menu
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxKidsMenuMiniPizzaCheese">
+                                                                <input class="form-check-input" type="checkbox" id="chbxKidsMenuMiniPizzaCheese" name="chbxKidsMenuMiniPizzaCheese">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -416,7 +448,7 @@
                                                                 <label class="form-check-label" for="chbxKidsMenuMiniPizza">
                                                                     Choose Menu
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxKidsMenuMiniPizza">
+                                                                <input class="form-check-input" type="checkbox" id="chbxKidsMenuMiniPizza" name="chbxKidsMenuMiniPizza">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -435,7 +467,7 @@
                                                                 <label class="form-check-label" for="chbxKidsMenuSliders">
                                                                     Choose Menu
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxKidsMenuSliders">
+                                                                <input class="form-check-input" type="checkbox" id="chbxKidsMenuSliders" name="chbxKidsMenuSliders">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -454,7 +486,7 @@
                                                                 <label class="form-check-label" for="chbxKidsMenuHandpie">
                                                                     Choose Menu
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxKidsMenuHandpie">
+                                                                <input class="form-check-input" type="checkbox" id="chbxKidsMenuHandpie" name="chbxKidsMenuHandpie">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -487,7 +519,7 @@
                                                                 <label class="form-check-label" for="chbxDrinksIcetea">
                                                                     Choose Drink
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxDrinksIcetea">
+                                                                <input class="form-check-input" type="checkbox" id="chbxDrinksIcetea" name="chbxDrinksIcetea">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -505,7 +537,7 @@
                                                                 <label class="form-check-label" for="chbxDrinksOrangeJuice">
                                                                     Choose Drink
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxDrinksOrangeJuice">
+                                                                <input class="form-check-input" type="checkbox" id="chbxDrinksOrangeJuice" name="chbxDrinksOrangeJuice">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -524,7 +556,7 @@
                                                                 <label class="form-check-label" for="chbxDrinksAppleJuice">
                                                                     Choose Drink
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxDrinksAppleJuice">
+                                                                <input class="form-check-input" type="checkbox" id="chbxDrinksAppleJuice" name="chbxDrinksAppleJuice">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -543,7 +575,7 @@
                                                                 <label class="form-check-label" for="chbxDrinksFantaOrange">
                                                                     Choose Drink
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxDrinksFantaOrange">
+                                                                <input class="form-check-input" type="checkbox" id="chbxDrinksFantaOrange" name="chbxDrinksFantaOrange">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -562,7 +594,7 @@
                                                                 <label class="form-check-label" for="chbxDrinksCocacola">
                                                                     Choose Drink
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxDrinksCocacola">
+                                                                <input class="form-check-input" type="checkbox" id="chbxDrinksCocacola" name="chbxDrinksCocacola">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -581,7 +613,7 @@
                                                                 <label class="form-check-label" for="chbxDrinksApricotJuice">
                                                                     Choose Drink
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxDrinksApricotJuice">
+                                                                <input class="form-check-input" type="checkbox" id="chbxDrinksApricotJuice" name="chbxDrinksApricotJuice">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -611,10 +643,10 @@
                                                         </div>
                                                         <div class="card-footer">
                                                             <div class="form-check float-end">
-                                                                <label class="form-check-label" for="chbxOreoPudding">
-                                                                    Choose Drink
+                                                                <label class="form-check-label" for="chbxDessertOreoPudding">
+                                                                    Choose Dessert
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxOreoPudding">
+                                                                <input class="form-check-input" type="checkbox" id="chbxDessertOreoPudding" name="chbxDessertOreoPudding">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -629,10 +661,10 @@
                                                         </div>
                                                         <div class="card-footer">
                                                             <div class="form-check float-end">
-                                                                <label class="form-check-label" for="chbxOreoBalls">
-                                                                    Choose Drink
+                                                                <label class="form-check-label" for="chbxDessertOreoBalls">
+                                                                    Choose Dessert
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxOreoBalls">
+                                                                <input class="form-check-input" type="checkbox" id="chbxDessertOreoBalls" name="chbxDessertOreoBalls">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -648,10 +680,10 @@
                                                         </div>
                                                         <div class="card-footer">
                                                             <div class="form-check float-end">
-                                                                <label class="form-check-label" for="chbxChurros">
+                                                                <label class="form-check-label" for="chbxDessertChurros">
                                                                     Choose Dessert
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxChurros">
+                                                                <input class="form-check-input" type="checkbox" id="chbxDessertChurros" name="chbxDessertChurros">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -667,10 +699,10 @@
                                                         </div>
                                                         <div class="card-footer">
                                                             <div class="form-check float-end">
-                                                                <label class="form-check-label" for="chbxDonuts">
+                                                                <label class="form-check-label" for="chbxDessertDonuts">
                                                                     Choose Dessert
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxDonuts">
+                                                                <input class="form-check-input" type="checkbox" id="chbxDessertDonuts" name="chbxDessertDonuts">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -686,10 +718,10 @@
                                                         </div>
                                                         <div class="card-footer">
                                                             <div class="form-check float-end">
-                                                                <label class="form-check-label" for="chbxMalva">
+                                                                <label class="form-check-label" for="chbxDessertMalva">
                                                                     Choose Dessert
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbxMalva">
+                                                                <input class="form-check-input" type="checkbox" id="chbxDessertMalva" name="chbxDessertMalva">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -705,10 +737,10 @@
                                                         </div>
                                                         <div class="card-footer">
                                                             <div class="form-check float-end">
-                                                                <label class="form-check-label" for="chbDessertBerry">
+                                                                <label class="form-check-label" for="chbxDessertBerry">
                                                                     Choose Dessert
                                                                 </label>
-                                                                <input class="form-check-input" type="checkbox" id="chbDessertBerry">
+                                                                <input class="form-check-input" type="checkbox" id="chbxDessertBerry" name="chbxDessertBerry">
                                                             </div>
                                                         </div>
                                                     </div>

@@ -1,17 +1,7 @@
-E:\BC\PRG371\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\domain\models\AddressModel.java
-E:\BC\PRG371\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\domain\models\ClientModel.java
-E:\BC\PRG371\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\data\ClientsDao.java
-E:\BC\PRG371\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\domain\controllers\ClientAuthServlet.java
-E:\BC\PRG371\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\resources\JakartaEE10Resource.java
-E:\BC\PRG371\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\JakartaRestConfiguration.java
-E:\BC\PRG371\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\data\DbContext.java
-E:\BC\PRG371\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\domain\models\ClientDetails.java
-E:\BC\PRG371\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\domain\controllers\CreateAccountController.java
-E:\BC\PRG371\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\domain\models\GenericResponse.java
-E:\BC\PRG371\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\domain\controllers\BookingsController.java
 G:\My Drive\Private\Documentation\Academic\BelgiumCampus\Year4 - 2024\MODULES\P-PGR371\Class Material\3. Assessments\Project\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\domain\controllers\ClientAuthServlet.java
 G:\My Drive\Private\Documentation\Academic\BelgiumCampus\Year4 - 2024\MODULES\P-PGR371\Class Material\3. Assessments\Project\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\domain\models\ClientDetails.java
 G:\My Drive\Private\Documentation\Academic\BelgiumCampus\Year4 - 2024\MODULES\P-PGR371\Class Material\3. Assessments\Project\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\resources\JakartaEE10Resource.java
+G:\My Drive\Private\Documentation\Academic\BelgiumCampus\Year4 - 2024\MODULES\P-PGR371\Class Material\3. Assessments\Project\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\domain\models\BookingModel.java
 G:\My Drive\Private\Documentation\Academic\BelgiumCampus\Year4 - 2024\MODULES\P-PGR371\Class Material\3. Assessments\Project\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\domain\controllers\CreateAccountController.java
 G:\My Drive\Private\Documentation\Academic\BelgiumCampus\Year4 - 2024\MODULES\P-PGR371\Class Material\3. Assessments\Project\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\JakartaRestConfiguration.java
 G:\My Drive\Private\Documentation\Academic\BelgiumCampus\Year4 - 2024\MODULES\P-PGR371\Class Material\3. Assessments\Project\DeliciousCatering\Code\DeliciousCatering\src\main\java\com\vusieam\academics\deliciouscatering\data\DbContext.java

@@ -141,41 +141,67 @@ public class ClientsDao {
 
     
     
-    public GenericResponse<BookingModel> createBooking(BookingModel model){
+    public GenericResponse<BookingModel> createBooking(BookingModel model, Integer clientId){
         
         GenericResponse<BookingModel> response = new GenericResponse<>();
         Connection conn = null;
         try {
 
             conn = context.createDbConnection();
-            String commandText = "call md_createAccount(fname => ?, fsurname => ?, fdateOfBirth => ?, fpasscode => ?, fsecuredPwd => ?, femail => ?, fcell => ?, fphone => ?, fclientId => ?, responseStatus => ?, responseCode => ?,  responseMessage => ?)";//,?,?,?,?
+            String commandText = "call public.md_createbooking(fclientId => ?, ftypeofEventId => ?, feventDate => ?, feventTime => ?, fexpectedAdultsAttendance => ?, fexpectedKidsAttendance => ?, femailAddress => ?, fcellMobile => ?, ftelNo => ?, fadultMenuTacos => ?, fadultMenuChickenWrap => ?, fadultMenuChickenKebab => ?, fkidsMenuMiniPizzaCheese => ?, fkidsMenuMiniMiniPizza => ?, fkidsMenuMiniSliders => ?, fkidsMenuMiniHandpie => ?, fmenuDrinksIcetea => ?, fmenuDrinksOrangeJuice => ?, fmenuDrinksAppleJuice => ?, fmenuDrinksFantaOrange => ?,  fmenuDrinksCocacola => ?,  fmenuDrinksApricotJuice => ?,  fmenuDessertOreoPudding => ?,  fmenuDessertOreoBalls => ?,  fmenuDessertChurros => ?,  fmenuDessertDonuts => ?,  fmenuDessertMalva => ?,  fmenuDessertBerry => ?,  fdecoration => ?, fthemeDetails => ?, faddressTypeId => ?, fstreetNumber => ?, fstreetName => ?, fcomplexBuilding => ?, fsurburb => ?, fcity => ?, fzipcode => ?, fprovince => ?, fcountry => ?, referenceNo => ?, responseStatus => ?, responseCode => ?,  responseMessage => ?)";
             CallableStatement statement = conn.prepareCall(commandText);
-            statement.setString(1, details.getName());
-            statement.setString(2, details.getSurname());
-            statement.setDate(3, details.getDateOfBirth());
-            statement.setString(4, details.getPasscode());
-            statement.setString(5, details.getSecuredPassword());
-            statement.setString(6, details.getEmail());
-            statement.setString(7, details.getCell());
-            statement.setString(8, details.getTel());
-            statement.registerOutParameter(9, Types.VARCHAR);
-            statement.registerOutParameter(10, Types.VARCHAR);
-            statement.registerOutParameter(11, Types.VARCHAR);
-            statement.registerOutParameter(12, Types.VARCHAR);
+            statement.setInt(1, clientId);
+            statement.setInt(2, model.getTypeofEvent());
+            statement.setDate(3, model.getEventDate());
+            statement.setTime(4, model.getEventTime());
+            statement.setInt(5, model.getAttendingAdults());
+            statement.setInt(6, model.getAttendingKids());
+            statement.setString(7, model.getEmailAddress());
+            statement.setString(8, model.getCellMobile());
+            statement.setString(9, model.getTelNo());
+            statement.setBoolean(10, model.getAdultMenuTacos());
+            statement.setBoolean(11, model.getAdultMenuChickenWrap());
+            statement.setBoolean(12, model.getAdultMenuChickenKebab());
+            statement.setBoolean(13, model.getKidsMenuMiniPizzaCheese());
+            statement.setBoolean(14, model.getKidsMenuMiniMiniPizza());
+            statement.setBoolean(15, model.getKidsMenuMiniSliders());
+            statement.setBoolean(16, model.getKidsMenuMiniHandpie());
+            statement.setBoolean(17, model.getMenuDrinksIcetea());
+            statement.setBoolean(18, model.getMenuDrinksOrangeJuice());
+            statement.setBoolean(19, model.getMenuDrinksAppleJuice());
+            statement.setBoolean(20, model.getMenuDrinksFantaOrange());
+            statement.setBoolean(21, model.getMenuDrinksCocacola());
+            statement.setBoolean(22, model.getMenuDrinksApricotJuice());
+            statement.setBoolean(23, model.getMenuDessertOreoPudding());
+            statement.setBoolean(24, model.getMenuDessertOreoBalls());
+            statement.setBoolean(25, model.getMenuDessertChurros());
+            statement.setBoolean(26, model.getMenuDessertDonuts());
+            statement.setBoolean(27, model.getMenuDessertMalva());
+            statement.setBoolean(28, model.getMenuDessertBerry());
+            statement.setBoolean(29, model.getDecorNeeded());
+            statement.setString(30, model.getThemeDetails());
+            
+            statement.setInt(31, model.getAddressType());
+            statement.setString(32, model.getStreetNo());
+            statement.setString(33, model.getStreetName());
+            statement.setString(34, model.getComplexName());
+            statement.setString(35, model.getSuburb());
+            statement.setString(36, model.getCity());
+            statement.setString(37, model.getZipCode());
+            statement.setString(38, model.getProvince());
+            statement.setString(39, model.getCountry());
+            
+            statement.registerOutParameter(40, Types.VARCHAR);
+            statement.registerOutParameter(41, Types.VARCHAR);
+            statement.registerOutParameter(42, Types.VARCHAR);
+            statement.registerOutParameter(43, Types.VARCHAR);
             statement.execute();
             
-            details.setId(Integer.parseInt(statement.getString(9)));
-            response.setStatus(Boolean.parseBoolean(statement.getString(10)));
-            response.setCode(Integer.parseInt(statement.getString(11)));
-            response.setMessage(statement.getString(12));
-
-            var address = details.getAddress();
-
-            if (address != null) {
-                if ((!address.getStreetName().isEmpty()) || (!address.getStreetNumber().isEmpty())) {
-                    //var addressStmt = conn.prepareStatement("CALL sp_createAccount(?,?,?,?,?,?,?,?,?,?,?,?)");
-                }
-            }            
+            model.setId(Integer.parseInt(statement.getString(40)));
+            response.setStatus(Boolean.parseBoolean(statement.getString(41)));
+            response.setCode(Integer.parseInt(statement.getString(42)));
+            response.setMessage(statement.getString(43));
+            
         } 
         catch (SQLException ex) {
             response.setCode(500);
