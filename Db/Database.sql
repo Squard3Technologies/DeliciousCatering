@@ -371,23 +371,28 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE PROCEDURE md_createAccount
-(
-   IN fname VARCHAR(250),
-   IN fsurname VARCHAR(250),
-   IN fdateOfBirth TIMESTAMP,
-   IN fpasscode VARCHAR(50),
-   IN fsecuredPwd VARCHAR (500),
-   IN femail VARCHAR (50),  
-   IN fcell VARCHAR (50),
-   IN fphone VARCHAR (50),
-   INOUT fclientId VARCHAR(50),
-   INOUT responseStatus VARCHAR(50),
-   INOUT responseCode VARCHAR(50),
-   INOUT responseMessage VARCHAR(500)
-)
-LANGUAGE plpgsql
-AS $$
+
+
+
+-- PROCEDURE: public.md_createaccount(character varying, character varying, timestamp without time zone, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying)
+
+-- DROP PROCEDURE IF EXISTS public.md_createaccount(character varying, character varying, timestamp without time zone, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying);
+
+CREATE OR REPLACE PROCEDURE public.md_createaccount(
+	IN fname character varying,
+	IN fsurname character varying,
+	IN fdateofbirth timestamp without time zone,
+	IN fpasscode character varying,
+	IN fsecuredpwd character varying,
+	IN femail character varying,
+	IN fcell character varying,
+	IN fphone character varying,
+	INOUT fclientid character varying,
+	INOUT responsestatus character varying,
+	INOUT responsecode character varying,
+	INOUT responsemessage character varying)
+LANGUAGE 'plpgsql'
+AS $BODY$
 DECLARE
 		pfclientId BIGINT;
 		--presponseStatus BOOLEAN;
@@ -395,9 +400,10 @@ DECLARE
 		--responseMessage VARCHAR (500);
 BEGIN
     SELECT p.clientId 
-	FROM phones p 
+	FROM phones p
+	LEFT JOIN emails e on e.clientid = p.clientid
 	INTO pfclientId 
-	WHERE (p.phoneNumber = fcell OR p.phoneNumber = fphone);
+	WHERE (p.phoneNumber = fcell OR p.phoneNumber = fphone OR e.emailaddress = femail);
 
 	IF pfclientId IS NULL OR pfclientId < 1 THEN
 	
@@ -418,7 +424,7 @@ BEGIN
 			);
 		END IF;
 
-		IF fphone IS NOT NULL THEN
+		IF fphone IS NOT NULL AND fphone <> '' THEN
 			INSERT INTO phones(clientid, phonetypeid, phonenumber, isprimary)
 			SELECT pfclientId, 2, fphone, false
 			WHERE
@@ -440,7 +446,7 @@ BEGIN
 		fclientId := pfclientId;
 		responseStatus := false;
 		responseCode := 409;
-		responseMessage := 'Account any of the provided phones already exists';
+		responseMessage := 'Account with any of the provided phones or email already exists';
 		RAISE NOTICE 'Account any of the provided phones (cell % or phone %) already exists with Id %', 
 		fcell, 
 		fphone,
@@ -448,4 +454,8 @@ BEGIN
 		
 	END IF;
     COMMIT;
-END;$$;
+END;
+$BODY$;
+ALTER PROCEDURE public.md_createaccount(character varying, character varying, timestamp without time zone, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying)
+    OWNER TO postgres;
+
