@@ -12,7 +12,7 @@
         <link href="www/css/main.css" rel="stylesheet" type="text/css" />
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="https://kit.fontawesome.com/5af2f289c2.js" crossorigin="anonymous"></script>
-
+    </head>
     <body>
         <div class="page-wrapper container-fluid">
             <div class="content-wrapper" style="background-color: rgba(0, 0, 0, 0.8); margin:0px !important">
@@ -69,40 +69,108 @@
                         <div class="card-body">
                             <form id="frmBookings" action="/DeliciousCatering/bookings" method="post">                                
                                 <div class="container-fluid mt-5">
-                                    <!--        <h3 class="mb-4">Bootstrap Data Table Example</h3>-->
                                     <table class="table table-striped table-hover w-100">
                                         <thead class="table-primary">
                                             <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Email</th>
-                                                <th scope="col">Role</th>
+                                                <th scope="col">Booking Number</th>
+                                                <th scope="col">Event Type</th>
+                                                <th scope="col">Event Date</th>
+                                                <th scope="col">Event Time</th>
+                                                <th scope="col">Total Cost</th>
+                                                <th scope="col">Balance</th>
+                                                <th scope="col">Status</th>
                                                 <th scope="col">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <th scope="row">1</th>
-                                                <td>John Doe</td>
-                                                <td>johndoe@example.com</td>
-                                                <td>Admin</td>
+                                                <th scope="row">12345678</th>
+                                                <td>Birthday</td>
+                                                <td>2024/11/18</td>
+                                                <td>17:00</td>
+                                                <td>R500</td>
+                                                <td>R200</td>
+                                                <td>Pending</td>
                                                 <td>
-                                                    <button class="btn btn-sm btn-primary">Edit</button>
-                                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-sm btn-danger"
+                                                        name="btnCancelEvent"
+                                                        title="Cancel Event"
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#cancelEventModal">
+
+                                                        <i class="fa-solid fa-calendar-xmark"></i>
+                                                    </button>
+
+                                                    <button 
+                                                        type="button"
+                                                        class="btn btn-sm btn-primary" 
+                                                        name="btnEditEvent" 
+                                                        title="Edit Event" 
+                                                        onclick="window.location.href = './booking.html'">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-sm btn-success btnPayment"
+                                                        name="btnAddPayment" 
+                                                        title="Add Payment"data-bs-toggle="modal"
+                                                        data-bs-target="#paymentModal">
+                                                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jane Smith</td>
-                                                <td>janesmith@example.com</td>
-                                                <td>User</td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-primary">Edit</button>
-                                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                                </td>
-                                            </tr>
+
                                         </tbody>
                                     </table>
+                                </div>
+
+                                <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="paymentModalLabel">Payment Form</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="mb-3">
+                                                        <label for="eventType" class="form-label">Event Type</label>
+                                                        <input type="text" class="form-control" id="eventType" placeholder="Enter event type">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="eventDate" class="form-label">Event Date</label>
+                                                        <input type="date" class="form-control" id="eventDate">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="cost" class="form-label">Cost</label>
+                                                        <input type="number" class="form-control" id="cost" placeholder="Enter cost">
+                                                    </div>
+                                                    <button type="button" class="btn btn-primary w-100">Pay</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="cancelEventModal" tabindex="-1" aria-labelledby="cancelEventModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="cancelEventModalLabel">Confirm Cancellation</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to cancel this event? This action cannot be undone.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-danger" id="confirmCancelEvent">Confirm Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </form>
