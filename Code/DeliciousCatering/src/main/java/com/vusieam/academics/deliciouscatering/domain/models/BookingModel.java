@@ -17,20 +17,20 @@ public class BookingModel {
     private Integer typeofEvent;
     private Date eventDate;
     private Time eventTime;
-    private Integer attendingAdults;
-    private Integer attendingKids;
-    private String emailAddress;
-    private String cellMobile;
-    private String telNo;
-    private Integer addressType;
-    private String streetNo;
-    private String streetName;
-    private String complexName;
-    private String suburb;
-    private String city;
-    private String zipCode;
-    private String province;
-    private String country;
+    private Integer attendingAdults = 0;
+    private Integer attendingKids = 0;
+    private String emailAddress = "";
+    private String cellMobile = "";
+    private String telNo = "";
+    private Integer addressType = 0;
+    private String streetNo = "";
+    private String streetName = "";
+    private String complexName = "";
+    private String suburb = "";
+    private String city = "";
+    private String zipCode = "";
+    private String province = "";
+    private String country = "";
     
     //Menus
     private Boolean adultMenuTacos;
