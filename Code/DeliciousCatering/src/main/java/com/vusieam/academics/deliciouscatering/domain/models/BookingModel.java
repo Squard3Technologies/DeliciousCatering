@@ -33,38 +33,48 @@ public class BookingModel {
     private String country = "";
     
     //Menus
-    private Boolean adultMenuTacos;
-    private Boolean adultMenuChickenWrap;
-    private Boolean adultMenuChickenKebab;
-    private Boolean kidsMenuMiniPizzaCheese;
-    private Boolean kidsMenuMiniMiniPizza;
-    private Boolean kidsMenuMiniSliders;
-    private Boolean kidsMenuMiniHandpie;
+    private Boolean adultMenuTacos = false;
+    private Boolean adultMenuChickenWrap = false;
+    private Boolean adultMenuChickenKebab = false;
+    private Boolean kidsMenuMiniPizzaCheese = false;
+    private Boolean kidsMenuMiniMiniPizza = false;
+    private Boolean kidsMenuMiniSliders = false;
+    private Boolean kidsMenuMiniHandpie = false;
     
     //Drinks
-    private Boolean menuDrinksIcetea;
-    private Boolean menuDrinksOrangeJuice;
-    private Boolean menuDrinksAppleJuice;
-    private Boolean menuDrinksFantaOrange;
-    private Boolean menuDrinksCocacola;
-    private Boolean menuDrinksApricotJuice;
+    private Boolean menuDrinksIcetea = false;
+    private Boolean menuDrinksOrangeJuice = false;
+    private Boolean menuDrinksAppleJuice = false;
+    private Boolean menuDrinksFantaOrange = false;
+    private Boolean menuDrinksCocacola = false;
+    private Boolean menuDrinksApricotJuice = false;
     
     //Dessert
-    private Boolean menuDessertOreoPudding;
-    private Boolean menuDessertOreoBalls;
-    private Boolean menuDessertChurros;
-    private Boolean menuDessertDonuts;
-    private Boolean menuDessertMalva;
-    private Boolean menuDessertBerry;
+    private Boolean menuDessertOreoPudding = false;
+    private Boolean menuDessertOreoBalls = false;
+    private Boolean menuDessertChurros = false;
+    private Boolean menuDessertDonuts = false;
+    private Boolean menuDessertMalva = false;
+    private Boolean menuDessertBerry = false;
     
     
-    private Boolean decorNeeded;
+    private Boolean decorNeeded = false;
     private String themeDetails;
     
     private String totalCost;
+    private String balance;
     private String stage;
     private Date creationDate;
 
+    
+
+    public String getBalance() {
+        return balance;
+    }
+
+    public void setBalance(String balance) {
+        this.balance = balance;
+    }
     
     
 

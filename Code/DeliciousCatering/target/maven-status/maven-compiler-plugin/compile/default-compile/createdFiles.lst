@@ -1,5 +1,5 @@
 com\vusieam\academics\deliciouscatering\data\DbContext.class
-com\vusieam\academics\deliciouscatering\domain\controllers\ClientAuthServlet.class
+com\vusieam\academics\deliciouscatering\domain\controllers\AuthenticationController.class
 com\vusieam\academics\deliciouscatering\JakartaRestConfiguration.class
 com\vusieam\academics\deliciouscatering\data\ClientsDao.class
 com\vusieam\academics\deliciouscatering\domain\models\BookingModel.class

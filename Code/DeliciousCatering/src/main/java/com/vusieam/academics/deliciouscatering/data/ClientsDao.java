@@ -5,6 +5,7 @@
 package com.vusieam.academics.deliciouscatering.data;
 
 import com.vusieam.academics.deliciouscatering.domain.models.BookingModel;
+import com.vusieam.academics.deliciouscatering.domain.models.BookingPaymentModel;
 import com.vusieam.academics.deliciouscatering.domain.models.ClientDetails;
 import com.vusieam.academics.deliciouscatering.domain.models.ClientModel;
 import com.vusieam.academics.deliciouscatering.domain.models.GenericResponse;
@@ -77,6 +78,59 @@ public class ClientsDao {
         return response;
     }
 
+    
+    
+    /**
+     * Method to handle user/client login to the system.
+     *
+     * @param username
+     * @param password
+     * @param con
+     * @return
+     */
+    public GenericResponse<ClientModel> adminAuthAsync(String username, String password) {
+        GenericResponse<ClientModel> response = new GenericResponse<>();
+        Connection conn = null;
+        try {
+            conn = context.createDbConnection();
+            PreparedStatement statement = conn.prepareStatement("select * from func_adminauth('" + username + "','" + password + "');");
+            ResultSet result = statement.executeQuery();
+            if (!result.next()) {
+                response.setCode(404);
+                response.setStatus(false);
+                response.setMessage("Login failed, incorrect username or password");
+            } else {
+                ClientModel model = new ClientModel();
+                model.setId(result.getInt("id"));
+                model.setName(result.getString("name"));
+                model.setSurname(result.getString("surname"));
+                model.setDateOfBirth(result.getDate("dateOfBirth"));
+
+                response.setCode(200);
+                response.setStatus(true);
+                response.setMessage("Login successful");
+                response.setData(model);
+            }
+        } catch (SQLException ex) {
+            response.setCode(500);
+            response.setStatus(false);
+            response.setMessage(ex.getMessage());
+        } catch (Exception ex) {
+            response.setCode(500);
+            response.setStatus(false);
+            response.setMessage(ex.getMessage());
+        } finally {
+            try {
+                context.closeDbConnection(conn);
+            } catch (Exception ex) {
+                Logger.getLogger(ClientsDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return response;
+    }
+
+    
+    
     /**
      * Method to handle creating an account.
      *
@@ -223,6 +277,53 @@ public class ClientsDao {
         return response;
     }
     
+    
+    
+    
+    
+    public GenericResponse<BookingPaymentModel> makeBookingPayment(BookingPaymentModel model){
+        
+        GenericResponse<BookingPaymentModel> response = new GenericResponse<>();
+        Connection conn = null;
+        try {
+
+            conn = context.createDbConnection();
+            String commandText = "call public.md_captureBookingPayments(bookingId => ?, paymentDate => ?, paymentAmount => ?, clientComments => ?, responseStatus => ?, responseCode => ?,  responseMessage => ?)";
+            CallableStatement statement = conn.prepareCall(commandText);
+            statement.setInt(1, model.getBookingId());
+            statement.setDate(2, model.getPaymentDate());
+            statement.setDouble(3, model.getPaymentAmount());
+            statement.setString(4, model.getClientComments());
+            statement.registerOutParameter(5, Types.VARCHAR);
+            statement.registerOutParameter(6, Types.VARCHAR);
+            statement.registerOutParameter(7, Types.VARCHAR);
+            
+            statement.execute();
+            
+            response.setStatus(Boolean.parseBoolean(statement.getString(5)));
+            response.setCode(Integer.parseInt(statement.getString(6)));
+            response.setMessage(statement.getString(7));
+            
+        } 
+        catch (SQLException ex) {
+            response.setCode(500);
+            response.setStatus(false);
+            response.setMessage(ex.getMessage());
+        } 
+        catch (Exception ex) {
+            response.setCode(500);
+            response.setStatus(false);
+            response.setMessage(ex.getMessage());
+        } 
+        finally {
+            try {
+                context.closeDbConnection(conn);
+            } catch (Exception ex) {
+                Logger.getLogger(ClientsDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return response;
+    }
     
     
 }

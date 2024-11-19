@@ -13,6 +13,9 @@ public class ClientModel {
     private String surname;
     private Date dateOfBirth;
     private Date lastLogin;
+    private String Role = "";
+
+    
 
     public ClientModel() {
     }
@@ -65,5 +68,13 @@ public class ClientModel {
 
     public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
+    }
+    
+    public String getRole() {
+        return Role;
+    }
+
+    public void setRole(String Role) {
+        this.Role = Role;
     }
 }
