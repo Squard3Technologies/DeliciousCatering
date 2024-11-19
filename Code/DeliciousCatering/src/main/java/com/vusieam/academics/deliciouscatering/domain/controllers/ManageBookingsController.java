@@ -5,8 +5,11 @@
 package com.vusieam.academics.deliciouscatering.domain.controllers;
 
 import com.google.gson.Gson;
+import com.vusieam.academics.deliciouscatering.data.ClientsDao;
 import com.vusieam.academics.deliciouscatering.domain.models.BookingPaymentModel;
+import com.vusieam.academics.deliciouscatering.domain.models.ClientDetails;
 import com.vusieam.academics.deliciouscatering.domain.models.ClientModel;
+import com.vusieam.academics.deliciouscatering.domain.models.FullBookingModel;
 import com.vusieam.academics.deliciouscatering.domain.models.GenericResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +19,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
 
 /**
  *
@@ -23,6 +27,8 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet(name = "manageBookings", urlPatterns = {"/manageBookings"})
 public class ManageBookingsController extends HttpServlet {
+
+    private final ClientsDao dao = new ClientsDao();
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -37,43 +43,65 @@ public class ManageBookingsController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            GenericResponse<ClientModel> authenticated = new GenericResponse<>();
+
             HttpSession session = request.getSession(false);
             if (session == null) {
-                authenticated.setStatus(false);
-                authenticated.setCode(403);
-                authenticated.setMessage("Session may have expired, please login.");
-            }
-            else{
+                GenericResponse<BookingPaymentModel> paymentResponse = new GenericResponse<>();
+                paymentResponse.setStatus(false);
+                paymentResponse.setCode(403);
+                paymentResponse.setMessage("Session may have expired, please login.");
+            } else {
                 if (session.getAttribute("clientProfile") == null) {
-                    authenticated.setStatus(false);
-                    authenticated.setCode(403);
-                    authenticated.setMessage("Session may have expired, please login.");
-                }
-                else {
+                    GenericResponse<BookingPaymentModel> paymentResponse = new GenericResponse<>();
+                    paymentResponse.setStatus(false);
+                    paymentResponse.setCode(403);
+                    paymentResponse.setMessage("Session may have expired, please login.");
+                } else {
                     String userJson = (String) session.getAttribute("clientProfile");
                     ClientModel client = new Gson().fromJson(userJson, ClientModel.class);
-                    
-                    if(client.getRole().equalsIgnoreCase("client")){
+
+                    if (client.getRole().equalsIgnoreCase("client")) {
                         var transactiontype = request.getParameter("transactionType");
-                        if(transactiontype.equalsIgnoreCase("makePayment")){
+                        if (transactiontype.equalsIgnoreCase("makePayment")) {
+                            GenericResponse<BookingPaymentModel> paymentResponse = new GenericResponse<>();
                             BookingPaymentModel data = new BookingPaymentModel();
+                            data.setBookingId(Integer.parseInt(request.getParameter("txtBookingId")));
+                            data.setPaymentDate(Date.valueOf(request.getParameter("txtPaymentDate")));
+                            data.setPaymentAmount(Double.parseDouble(request.getParameter("txtPaymentAmount")));
+                            data.setClientComments(request.getParameter("txtPaymentComments"));
+                            paymentResponse = dao.makeBookingPayment(data);
+                            String json = new Gson().toJson(paymentResponse);
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.getWriter().write(json);
+
+                        } 
+                        else if (transactiontype.equalsIgnoreCase("getClientBookings")) {
+                            GenericResponse<FullBookingModel> bookingsResponse = new GenericResponse<>();
+                            bookingsResponse = dao.getBookingsByClient(client.getId());
+                            String json = new Gson().toJson(bookingsResponse);
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.getWriter().write(json);
                         }
+                    } else {
+                        GenericResponse<BookingPaymentModel> paymentResponse = new GenericResponse<>();
+                        paymentResponse.setStatus(true);
+                        paymentResponse.setCode(200);
+                        paymentResponse.setMessage("Authenticated");
                     }
-                    else{
-                        
-                    }
-                    
-                    
-                    authenticated.setStatus(true);
-                    authenticated.setCode(200);
-                    authenticated.setMessage("Authenticated");
-                    authenticated.setData(client);
                 }
             }
 
         } catch (Exception ex) {
-
+            GenericResponse<ClientDetails> createResponse = new GenericResponse();
+            createResponse.setStatus(false);
+            createResponse.setCode(500);
+            createResponse.setMessage(ex.getMessage() + "<br/>" + ex.getStackTrace());
+            String json = new Gson().toJson(createResponse);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
         }
     }
 
@@ -90,8 +118,59 @@ public class ManageBookingsController extends HttpServlet {
             throws ServletException, IOException {
         try {
 
-        } catch (Exception ex) {
+            HttpSession session = request.getSession(false);
+            if (session == null) {
+                GenericResponse<BookingPaymentModel> paymentResponse = new GenericResponse<>();
+                paymentResponse.setStatus(false);
+                paymentResponse.setCode(403);
+                paymentResponse.setMessage("Session may have expired, please login.");
+            } else {
+                if (session.getAttribute("clientProfile") == null) {
+                    GenericResponse<BookingPaymentModel> paymentResponse = new GenericResponse<>();
+                    paymentResponse.setStatus(false);
+                    paymentResponse.setCode(403);
+                    paymentResponse.setMessage("Session may have expired, please login.");
+                } else {
+                    String userJson = (String) session.getAttribute("clientProfile");
+                    ClientModel client = new Gson().fromJson(userJson, ClientModel.class);
 
+                    if (client.getRole().equalsIgnoreCase("client")) {
+                        var transactiontype = request.getParameter("transactionType");
+                        if (transactiontype.equalsIgnoreCase("makePayment")) {
+                            GenericResponse<BookingPaymentModel> paymentResponse = new GenericResponse<>();
+                            BookingPaymentModel data = new BookingPaymentModel();
+                            data.setBookingId(Integer.parseInt(request.getParameter("txtBookingId")));
+                            data.setPaymentDate(Date.valueOf(request.getParameter("txtPaymentDate")));
+                            data.setPaymentAmount(Double.parseDouble(request.getParameter("txtPaymentAmount")));
+                            data.setClientComments(request.getParameter("txtPaymentComments"));
+                            paymentResponse = dao.makeBookingPayment(data);
+
+                            String json = new Gson().toJson(paymentResponse);
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.getWriter().write(json);
+
+                        }
+                    } else {
+                        GenericResponse<BookingPaymentModel> paymentResponse = new GenericResponse<>();
+                        paymentResponse.setStatus(true);
+                        paymentResponse.setCode(200);
+                        paymentResponse.setMessage("Authenticated");
+
+                    }
+
+                }
+            }
+
+        } catch (Exception ex) {
+            GenericResponse<ClientDetails> createResponse = new GenericResponse();
+            createResponse.setStatus(false);
+            createResponse.setCode(500);
+            createResponse.setMessage(ex.getMessage() + "<br/>" + ex.getStackTrace());
+            String json = new Gson().toJson(createResponse);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
         }
     }
 

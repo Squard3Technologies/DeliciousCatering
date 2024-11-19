@@ -12,7 +12,8 @@ import java.sql.Time;
  * @author vusi
  */
 public class BookingModel {
-    
+
+    private ClientModel client;
     private Integer id;
     private Integer typeofEvent;
     private Date eventDate;
@@ -61,21 +62,72 @@ public class BookingModel {
     private Boolean decorNeeded = false;
     private String themeDetails;
     
-    private String totalCost;
-    private String balance;
-    private String stage;
+    private String quoteAmount;
+    private String discountPercent;
+    private String finalQuoteAmount;
+    private String currentBalance;
+    private String stageId;
+    private String stageDescription;
     private Date creationDate;
-
     
-
-    public String getBalance() {
-        return balance;
+    
+    public ClientModel getClient() {
+        return client;
     }
 
-    public void setBalance(String balance) {
-        this.balance = balance;
+    public void setClient(ClientModel client) {
+        this.client = client;
     }
     
+
+    public String getQuoteAmount() {
+        return quoteAmount;
+    }
+
+    public void setQuoteAmount(String quoteAmount) {
+        this.quoteAmount = quoteAmount;
+    }
+
+    public String getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public void setDiscountPercent(String discountPercent) {
+        this.discountPercent = discountPercent;
+    }
+
+    public String getFinalQuoteAmount() {
+        return finalQuoteAmount;
+    }
+
+    public void setFinalQuoteAmount(String finalQuoteAmount) {
+        this.finalQuoteAmount = finalQuoteAmount;
+    }
+
+    public String getCurrentBalance() {
+        return currentBalance;
+    }
+
+    public void setCurrentBalance(String currentBalance) {
+        this.currentBalance = currentBalance;
+    }
+
+    public String getStageId() {
+        return stageId;
+    }
+
+    public void setStageId(String stageId) {
+        this.stageId = stageId;
+    }
+
+    public String getStageDescription() {
+        return stageDescription;
+    }
+
+    public void setStageDescription(String stageDescription) {
+        this.stageDescription = stageDescription;
+    }
+
     
 
     public Integer getId() {
@@ -390,22 +442,7 @@ public class BookingModel {
         this.themeDetails = themeDetails;
     }
 
-    public String getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(String totalCost) {
-        this.totalCost = totalCost;
-    }
-
-    public String getStage() {
-        return stage;
-    }
-
-    public void setStage(String stage) {
-        this.stage = stage;
-    }
-
+    
     public Date getCreationDate() {
         return creationDate;
     }

@@ -844,7 +844,7 @@ RETURNS TABLE
 	menuDrinksCocacola BOOLEAN, menuDrinksApricotJuice BOOLEAN, menuDessertOreoPudding BOOLEAN, menuDessertOreoBalls BOOLEAN, menuDessertChurros BOOLEAN, 
 	menuDessertDonuts BOOLEAN, menuDessertMalva BOOLEAN, menuDessertBerry BOOLEAN, decoration BOOLEAN, themeDetails VARCHAR, 
 	addressTypeId BIGINT, streetNumber VARCHAR, streetName VARCHAR, complexBuilding VARCHAR, surburb VARCHAR, city VARCHAR, 
-	zipcode VARCHAR, province VARCHAR, country VARCHAR, quoteAmount NUMERIC(10,2), discountpercent NUMERIC(3,2), finalQuoteAmount NUMERIC(10,2), currentBalance NUMERIC(10,2)		
+	zipcode VARCHAR, province VARCHAR, country VARCHAR, quoteAmount NUMERIC(10,2), discountpercent NUMERIC(5,2), finalQuoteAmount NUMERIC(10,2), currentBalance NUMERIC(10,2)		
 )
 LANGUAGE 'plpgsql'
 AS $BODY$ 
@@ -895,7 +895,7 @@ CREATE OR REPLACE FUNCTION public.md_getbookingbyId
 	menuDrinksCocacola BOOLEAN, menuDrinksApricotJuice BOOLEAN, menuDessertOreoPudding BOOLEAN, menuDessertOreoBalls BOOLEAN, menuDessertChurros BOOLEAN, 
 	menuDessertDonuts BOOLEAN, menuDessertMalva BOOLEAN, menuDessertBerry BOOLEAN, decoration BOOLEAN, themeDetails VARCHAR, 
 	addressTypeId BIGINT, streetNumber VARCHAR, streetName VARCHAR, complexBuilding VARCHAR, surburb VARCHAR, city VARCHAR, 
-	zipcode VARCHAR, province VARCHAR, country VARCHAR, quoteAmount NUMERIC(10,2), discountpercent NUMERIC(3,2), finalQuoteAmount NUMERIC(10,2), currentBalance NUMERIC(10,2)		
+	zipcode VARCHAR, province VARCHAR, country VARCHAR, quoteAmount NUMERIC(10,2), discountpercent NUMERIC(5,2), finalQuoteAmount NUMERIC(10,2), currentBalance NUMERIC(10,2)		
 )
 LANGUAGE 'plpgsql'
 AS $BODY$ 
@@ -944,7 +944,7 @@ CREATE OR REPLACE FUNCTION public.md_getbookingbyStage
 	menuDrinksCocacola BOOLEAN, menuDrinksApricotJuice BOOLEAN, menuDessertOreoPudding BOOLEAN, menuDessertOreoBalls BOOLEAN, menuDessertChurros BOOLEAN, 
 	menuDessertDonuts BOOLEAN, menuDessertMalva BOOLEAN, menuDessertBerry BOOLEAN, decoration BOOLEAN, themeDetails VARCHAR, 
 	addressTypeId BIGINT, streetNumber VARCHAR, streetName VARCHAR, complexBuilding VARCHAR, surburb VARCHAR, city VARCHAR, 
-	zipcode VARCHAR, province VARCHAR, country VARCHAR, quoteAmount NUMERIC(10,2), discountpercent NUMERIC(3,2), finalQuoteAmount NUMERIC(10,2), currentBalance NUMERIC(10,2)		
+	zipcode VARCHAR, province VARCHAR, country VARCHAR, quoteAmount NUMERIC(10,2), discountpercent NUMERIC(5,2), finalQuoteAmount NUMERIC(10,2), currentBalance NUMERIC(10,2)		
 )
 LANGUAGE 'plpgsql'
 AS $BODY$ 
