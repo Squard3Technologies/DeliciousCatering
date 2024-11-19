@@ -96,7 +96,7 @@ public class AuthenticationController extends HttpServlet {
             //Administrator login
             var authResponse = dao.adminAuthAsync(username, password);
             if (authResponse.getStatus()) {
-                authResponse.getData().setRole("admin");
+                authResponse.getData().setRole("Admin");
                 String sessionUserJson = new Gson().toJson(authResponse.getData());
                 HttpSession session = request.getSession();
                 session.setAttribute("clientProfile", sessionUserJson);

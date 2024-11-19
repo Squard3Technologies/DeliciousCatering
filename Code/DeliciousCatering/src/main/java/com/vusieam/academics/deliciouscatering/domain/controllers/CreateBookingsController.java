@@ -57,7 +57,7 @@ public class CreateBookingsController extends HttpServlet {
             ClientModel client = new Gson().fromJson(userJson, ClientModel.class);
 
             BookingModel model = new BookingModel();
-            model.setTypeofEvent(Integer.parseInt(request.getParameter("txtEventType")));
+            model.setTypeofEventId(Integer.parseInt(request.getParameter("txtEventType")));
             model.setEventDate(java.sql.Date.valueOf(request.getParameter("eventDate")));
             var tm = request.getParameter("eventTime");
             LocalTime ltm = LocalTime.parse(tm);

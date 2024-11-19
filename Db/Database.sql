@@ -247,6 +247,25 @@ NOT EXISTS
 (
 	SELECT name FROM orderStages WHERE name = 'FULLY PAID'
 );
+
+
+
+INSERT INTO orderStages(id, name, description)
+SELECT 6, 'CANCELLED', 'Orders was cancelled by the client/customer'
+WHERE
+NOT EXISTS 
+(
+	SELECT name FROM orderStages WHERE name = 'CANCELLED'
+);
+
+
+INSERT INTO orderStages(id, name, description)
+SELECT 7, 'DECLINED', 'Booking was declined by business.'
+WHERE
+NOT EXISTS 
+(
+	SELECT name FROM orderStages WHERE name = 'DECLINED'
+);
 	
 	
 	
@@ -468,7 +487,7 @@ BEGIN
 						(NEW.expectedAdultsAttendance + NEW.expectedKidsAttendance) >= 40
 					) THEN 
 					(
-						SELECT ROUND(((SELECT cs.totalCost FROM public.cateringCosts cs WHERE cs.eventTypeId = NEW.typeofEventId) * 0.15), 2)
+						(SELECT cs.totalCost FROM public.cateringCosts cs WHERE cs.eventTypeId = NEW.typeofEventId) - (SELECT ROUND(((SELECT cs.totalCost FROM public.cateringCosts cs WHERE cs.eventTypeId = NEW.typeofEventId) * 0.15), 2))
 					)
 					ELSE (SELECT cs.totalCost FROM public.cateringCosts cs WHERE cs.eventTypeId = NEW.typeofEventId)
 				END AS finalCost
@@ -555,24 +574,33 @@ CREATE OR REPLACE TRIGGER booking_transaction_added
 
 
 CREATE OR REPLACE PROCEDURE public.md_captureBookingPayments(
-	IN bookingId BIGINT,
-	IN paymentDate Date,
-	IN paymentAmount NUMERIC(10,2),
-	IN clientComments VARCHAR,
-	INOUT responsestatus VARCHAR,
-	INOUT responsecode VARCHAR,
-	INOUT responsemessage VARCHAR)
+	IN bookingId Bigint,
+	IN paymentDate character varying,
+	IN paymentAmount character varying,
+	IN clientComments character varying,
+	INOUT responsestatus character varying,
+	INOUT responsecode character varying,
+	INOUT responsemessage character varying
+)
 LANGUAGE 'plpgsql'
 AS $BODY$
+DECLARE creditAmount NUMERIC(10,2);
+		creditDate DATE;
 BEGIN
+	creditAmount := CAST(paymentAmount AS NUMERIC);
+	creditDate := CAST(paymentDate AS DATE);
+	
 	INSERT INTO public.bookingDetailsTransactions(orderid, credit, transactiondate, transactioncomment)
-	VALUES(bookingId, paymentAmount, paymentDate, clientComments);
+	VALUES(bookingId, creditAmount, creditDate, clientComments);
 	responsestatus := 'true';
-	responsestatus := '200';
-	responsestatus := 'Successful';
+	responsecode := '200';
+	responsemessage := 'Successful';
 	COMMIT;
 END;
 $BODY$;
+ALTER PROCEDURE public.md_captureBookingPayments(Bigint, character varying, 
+character varying, character varying, character varying, character varying, character varying)
+    OWNER TO postgres;
 
 
 
@@ -625,14 +653,16 @@ $BODY$;
 
 
 
--- PROCEDURE: public.md_createaccount(character varying, character varying, timestamp without time zone, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying)
+-- PROCEDURE: public.md_createaccount(ftitle character varying, character varying, character varying, timestamp without time zone, fgender character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying)
 
--- DROP PROCEDURE IF EXISTS public.md_createaccount(character varying, character varying, timestamp without time zone, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying);
+-- DROP PROCEDURE IF EXISTS public.md_createaccount(ftitle character varying, character varying, character varying, timestamp without time zone, fgender character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying);
 
 CREATE OR REPLACE PROCEDURE public.md_createaccount(
+	IN ftitle character varying,
 	IN fname character varying,
 	IN fsurname character varying,
 	IN fdateofbirth timestamp without time zone,
+	IN fgender character varying,
 	IN fpasscode character varying,
 	IN fsecuredpwd character varying,
 	IN femail character varying,
@@ -658,8 +688,8 @@ BEGIN
 
 	IF pfclientId IS NULL OR pfclientId < 1 THEN
 	
-		INSERT INTO clients("name", surname, dateofbirth, passcode, securepwd)
-		VALUES(fname, fsurname, fdateOfBirth, fpasscode, fsecuredpwd)
+		INSERT INTO clients(tittle,"name", surname, dateofbirth, gender, passcode, securepwd)
+		VALUES(ftitle,fname, fsurname, fdateOfBirth, fgender, fpasscode, fsecuredpwd)
 		RETURNING id INTO pfclientId;
 
 		RAISE NOTICE 'Client Id % has been added', 
@@ -707,8 +737,10 @@ BEGIN
     COMMIT;
 END;
 $BODY$;
-ALTER PROCEDURE public.md_createaccount(character varying, character varying, timestamp without time zone, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying)
+ALTER PROCEDURE public.md_createaccount(ftitle character varying, character varying, character varying, timestamp without time zone, fgender character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying)
     OWNER TO postgres;
+
+
 
 
 
@@ -829,25 +861,44 @@ $BODY$;
 
 
 
-CREATE OR REPLACE FUNCTION public.md_getbookingsbyclient
-(
-	IN clientIdentifier BIGINT
-) 
-RETURNS TABLE
-(
-	clientid BIGINT, name VARCHAR, surname VARCHAR, gender VARCHAR, dateOfBirth DATE,
-	orderId BIGINT, typeofEventId BIGINT, eventDate DATE, eventTime TIME, expectedAdultsAttendance INTEGER, 
-	expectedKidsAttendance INTEGER, emailAddress VARCHAR, cellMobile VARCHAR, telNo VARCHAR, adultMenuTacos BOOLEAN, 
-	adultMenuChickenWrap BOOLEAN, adultMenuChickenKebab BOOLEAN, kidsMenuMiniPizzaCheese BOOLEAN, kidsMenuMiniMiniPizza BOOLEAN, 
-	kidsMenuMiniSliders BOOLEAN, kidsMenuMiniHandpie BOOLEAN, menuDrinksIcetea BOOLEAN, menuDrinksOrangeJuice BOOLEAN, 
-	menuDrinksAppleJuice BOOLEAN, menuDrinksFantaOrange BOOLEAN, 
-	menuDrinksCocacola BOOLEAN, menuDrinksApricotJuice BOOLEAN, menuDessertOreoPudding BOOLEAN, menuDessertOreoBalls BOOLEAN, menuDessertChurros BOOLEAN, 
-	menuDessertDonuts BOOLEAN, menuDessertMalva BOOLEAN, menuDessertBerry BOOLEAN, decoration BOOLEAN, themeDetails VARCHAR, 
-	addressTypeId BIGINT, streetNumber VARCHAR, streetName VARCHAR, complexBuilding VARCHAR, surburb VARCHAR, city VARCHAR, 
-	zipcode VARCHAR, province VARCHAR, country VARCHAR, quoteAmount NUMERIC(10,2), discountpercent NUMERIC(5,2), finalQuoteAmount NUMERIC(10,2), currentBalance NUMERIC(10,2)		
+CREATE OR REPLACE PROCEDURE public.md_cancelBooking(
+	IN bookingId Bigint,
+	INOUT responsestatus character varying,
+	INOUT responsecode character varying,
+	INOUT responsemessage character varying
 )
 LANGUAGE 'plpgsql'
-AS $BODY$ 
+AS $BODY$
+BEGIN
+	UPDATE 	public.bookingdetails 
+	SET 	stageId = 6
+	WHERE	id = bookingId;	
+	responsestatus := 'true';
+	responsecode := '200';
+	responsemessage := 'Successful';
+	COMMIT;
+END;
+$BODY$;
+ALTER PROCEDURE public.md_cancelBooking(Bigint, character varying, character varying, character varying)
+    OWNER TO postgres;
+
+
+
+
+-- FUNCTION: public.md_getbookingsbyclient(bigint)
+
+-- DROP FUNCTION IF EXISTS public.md_getbookingsbyclient(bigint);
+
+CREATE OR REPLACE FUNCTION public.md_getbookingsbyclient(
+	clientidentifier bigint)
+    RETURNS TABLE(clientid bigint, name character varying, surname character varying, gender character varying, dateofbirth date, orderid bigint, typeofeventid bigint, typeofeventdescription character varying, stagetypeid bigint, stagedescription character varying, eventdate date, eventtime time without time zone, expectedadultsattendance integer, expectedkidsattendance integer, emailaddress character varying, cellmobile character varying, telno character varying, adultmenutacos boolean, adultmenuchickenwrap boolean, adultmenuchickenkebab boolean, kidsmenuminipizzacheese boolean, kidsmenuminiminipizza boolean, kidsmenuminisliders boolean, kidsmenuminihandpie boolean, menudrinksicetea boolean, menudrinksorangejuice boolean, menudrinksapplejuice boolean, menudrinksfantaorange boolean, menudrinkscocacola boolean, menudrinksapricotjuice boolean, menudessertoreopudding boolean, menudessertoreoballs boolean, menudessertchurros boolean, menudessertdonuts boolean, menudessertmalva boolean, menudessertberry boolean, decoration boolean, themedetails character varying, addresstypeid bigint, streetnumber character varying, streetname character varying, complexbuilding character varying, surburb character varying, city character varying, zipcode character varying, province character varying, country character varying, quoteamount numeric, discountpercent numeric, finalquoteamount numeric, currentbalance numeric) 
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
+ 
 BEGIN
 	RETURN QUERY 
 		WITH RECURSIVE cte_payments AS (
@@ -858,7 +909,7 @@ BEGIN
 			GROUP BY bf.orderid
 		)
 		SELECT d.clientid, cl.name, cl.surname, cl.gender, cl.dateOfBirth, 
-		d.id as orderId, d.typeofEventId, d.eventDate, d.eventTime, d.expectedAdultsAttendance, d.expectedKidsAttendance, 
+		d.id as orderId, d.typeofEventId, tf.name as typeofEventName, d.stageId, osd.name as stageName , d.eventDate, d.eventTime, d.expectedAdultsAttendance, d.expectedKidsAttendance, 
 		d.emailAddress, d.cellMobile, d.telNo, 
 		d.adultMenuTacos, d.adultMenuChickenWrap, d.adultMenuChickenKebab, d.kidsMenuMiniPizzaCheese, d.kidsMenuMiniMiniPizza, d.kidsMenuMiniSliders, 
 		d.kidsMenuMiniHandpie, 
@@ -866,10 +917,12 @@ BEGIN
 		d.menuDessertOreoPudding, d.menuDessertOreoBalls, d.menuDessertChurros, d.menuDessertDonuts, d.menuDessertMalva, d.menuDessertBerry, 
 		d.decoration, d.themeDetails, 
 		a.addressTypeId, a.streetNumber, a.streetName, a.complexBuilding, a.surburb, a.city, a.zipcode,a.province, a.country,
-		d.quotationAmount, d.discountpercentage, finalQuotationAmount, cp.runningBalance
+		d.quotationAmount, d.discountpercentage, ROUND(finalQuotationAmount,2), coalesce(cp.runningBalance,0)
 		FROM public.bookingDetails d
 		INNER JOIN public.clients cl on cl.id = d.clientid
 		INNER JOIN public.bookingDetailsAddresses a on a.orderid = d.id
+		INNER JOIN public.typesofevents tf on tf.id = d.typeofeventid
+		INNER JOIN public.orderStages osd on osd.id = d.stageId 
 		LEFT JOIN cte_payments cp on cp.orderid = d.id
 		
 		 WHERE 
@@ -879,26 +932,27 @@ BEGIN
 END;
 $BODY$;
 
+ALTER FUNCTION public.md_getbookingsbyclient(bigint)
+    OWNER TO postgres;
 
 
-CREATE OR REPLACE FUNCTION public.md_getbookingbyId
-(
-	IN bookingId BIGINT
-) RETURNS TABLE
-(
-	clientid BIGINT, name VARCHAR, surname VARCHAR, gender VARCHAR, dateOfBirth DATE,
-	orderId BIGINT, typeofEventId BIGINT, eventDate DATE, eventTime TIME, expectedAdultsAttendance INTEGER, 
-	expectedKidsAttendance INTEGER, emailAddress VARCHAR, cellMobile VARCHAR, telNo VARCHAR, adultMenuTacos BOOLEAN, 
-	adultMenuChickenWrap BOOLEAN, adultMenuChickenKebab BOOLEAN, kidsMenuMiniPizzaCheese BOOLEAN, kidsMenuMiniMiniPizza BOOLEAN, 
-	kidsMenuMiniSliders BOOLEAN, kidsMenuMiniHandpie BOOLEAN, menuDrinksIcetea BOOLEAN, menuDrinksOrangeJuice BOOLEAN, 
-	menuDrinksAppleJuice BOOLEAN, menuDrinksFantaOrange BOOLEAN, 
-	menuDrinksCocacola BOOLEAN, menuDrinksApricotJuice BOOLEAN, menuDessertOreoPudding BOOLEAN, menuDessertOreoBalls BOOLEAN, menuDessertChurros BOOLEAN, 
-	menuDessertDonuts BOOLEAN, menuDessertMalva BOOLEAN, menuDessertBerry BOOLEAN, decoration BOOLEAN, themeDetails VARCHAR, 
-	addressTypeId BIGINT, streetNumber VARCHAR, streetName VARCHAR, complexBuilding VARCHAR, surburb VARCHAR, city VARCHAR, 
-	zipcode VARCHAR, province VARCHAR, country VARCHAR, quoteAmount NUMERIC(10,2), discountpercent NUMERIC(5,2), finalQuoteAmount NUMERIC(10,2), currentBalance NUMERIC(10,2)		
-)
-LANGUAGE 'plpgsql'
-AS $BODY$ 
+
+
+
+-- FUNCTION: public.md_getbookingbyId(bigint)
+
+-- DROP FUNCTION IF EXISTS public.md_getbookingbyId(bigint);
+
+CREATE OR REPLACE FUNCTION public.md_getbookingbyId(
+	clientidentifier bigint)
+    RETURNS TABLE(clientid bigint, name character varying, surname character varying, gender character varying, dateofbirth date, orderid bigint, typeofeventid bigint, typeofeventdescription character varying, stagetypeid bigint, stagedescription character varying, eventdate date, eventtime time without time zone, expectedadultsattendance integer, expectedkidsattendance integer, emailaddress character varying, cellmobile character varying, telno character varying, adultmenutacos boolean, adultmenuchickenwrap boolean, adultmenuchickenkebab boolean, kidsmenuminipizzacheese boolean, kidsmenuminiminipizza boolean, kidsmenuminisliders boolean, kidsmenuminihandpie boolean, menudrinksicetea boolean, menudrinksorangejuice boolean, menudrinksapplejuice boolean, menudrinksfantaorange boolean, menudrinkscocacola boolean, menudrinksapricotjuice boolean, menudessertoreopudding boolean, menudessertoreoballs boolean, menudessertchurros boolean, menudessertdonuts boolean, menudessertmalva boolean, menudessertberry boolean, decoration boolean, themedetails character varying, addresstypeid bigint, streetnumber character varying, streetname character varying, complexbuilding character varying, surburb character varying, city character varying, zipcode character varying, province character varying, country character varying, quoteamount numeric, discountpercent numeric, finalquoteamount numeric, currentbalance numeric) 
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
+ 
 BEGIN
 	RETURN QUERY 
 		WITH RECURSIVE cte_payments AS (
@@ -908,7 +962,7 @@ BEGIN
 			GROUP BY bf.orderid
 		)
 		SELECT d.clientid, cl.name, cl.surname, cl.gender, cl.dateOfBirth, 
-		d.id as orderId, d.typeofEventId, d.eventDate, d.eventTime, d.expectedAdultsAttendance, d.expectedKidsAttendance, 
+		d.id as orderId, d.typeofEventId, tf.name as typeofEventName, d.stageId, osd.name as stageName , d.eventDate, d.eventTime, d.expectedAdultsAttendance, d.expectedKidsAttendance, 
 		d.emailAddress, d.cellMobile, d.telNo, 
 		d.adultMenuTacos, d.adultMenuChickenWrap, d.adultMenuChickenKebab, d.kidsMenuMiniPizzaCheese, d.kidsMenuMiniMiniPizza, d.kidsMenuMiniSliders, 
 		d.kidsMenuMiniHandpie, 
@@ -916,11 +970,14 @@ BEGIN
 		d.menuDessertOreoPudding, d.menuDessertOreoBalls, d.menuDessertChurros, d.menuDessertDonuts, d.menuDessertMalva, d.menuDessertBerry, 
 		d.decoration, d.themeDetails, 
 		a.addressTypeId, a.streetNumber, a.streetName, a.complexBuilding, a.surburb, a.city, a.zipcode,a.province, a.country,
-		d.quotationAmount, d.discountpercentage, finalQuotationAmount, cp.runningBalance  
+		d.quotationAmount, d.discountpercentage, ROUND(finalQuotationAmount,2), coalesce(cp.runningBalance,0)
 		FROM public.bookingDetails d
 		INNER JOIN public.clients cl on cl.id = d.clientid
 		INNER JOIN public.bookingDetailsAddresses a on a.orderid = d.id
+		INNER JOIN public.typesofevents tf on tf.id = d.typeofeventid
+		INNER JOIN public.orderStages osd on osd.id = d.stageId 
 		LEFT JOIN cte_payments cp on cp.orderid = d.id
+		
 		 WHERE 
 		 (
 		 	d.id = bookingId
@@ -928,37 +985,36 @@ BEGIN
 END;
 $BODY$;
 
+ALTER FUNCTION public.md_getbookingbyId(bigint)
+    OWNER TO postgres;
 
 
-CREATE OR REPLACE FUNCTION public.md_getbookingbyStage
-(
-	IN statusId BIGINT
-) RETURNS TABLE
-(
-	clientid BIGINT, name VARCHAR, surname VARCHAR, gender VARCHAR, dateOfBirth DATE,
-	orderId BIGINT, typeofEventId BIGINT, eventDate DATE, eventTime TIME, expectedAdultsAttendance INTEGER, 
-	expectedKidsAttendance INTEGER, emailAddress VARCHAR, cellMobile VARCHAR, telNo VARCHAR, adultMenuTacos BOOLEAN, 
-	adultMenuChickenWrap BOOLEAN, adultMenuChickenKebab BOOLEAN, kidsMenuMiniPizzaCheese BOOLEAN, kidsMenuMiniMiniPizza BOOLEAN, 
-	kidsMenuMiniSliders BOOLEAN, kidsMenuMiniHandpie BOOLEAN, menuDrinksIcetea BOOLEAN, menuDrinksOrangeJuice BOOLEAN, 
-	menuDrinksAppleJuice BOOLEAN, menuDrinksFantaOrange BOOLEAN, 
-	menuDrinksCocacola BOOLEAN, menuDrinksApricotJuice BOOLEAN, menuDessertOreoPudding BOOLEAN, menuDessertOreoBalls BOOLEAN, menuDessertChurros BOOLEAN, 
-	menuDessertDonuts BOOLEAN, menuDessertMalva BOOLEAN, menuDessertBerry BOOLEAN, decoration BOOLEAN, themeDetails VARCHAR, 
-	addressTypeId BIGINT, streetNumber VARCHAR, streetName VARCHAR, complexBuilding VARCHAR, surburb VARCHAR, city VARCHAR, 
-	zipcode VARCHAR, province VARCHAR, country VARCHAR, quoteAmount NUMERIC(10,2), discountpercent NUMERIC(5,2), finalQuoteAmount NUMERIC(10,2), currentBalance NUMERIC(10,2)		
-)
-LANGUAGE 'plpgsql'
-AS $BODY$ 
+
+
+
+
+-- FUNCTION: public.md_getallbookings()
+
+-- DROP FUNCTION IF EXISTS public.md_getallbookings();
+
+CREATE OR REPLACE FUNCTION public.md_getallbookings( )
+    RETURNS TABLE(clientid bigint, name character varying, surname character varying, gender character varying, dateofbirth date, orderid bigint, typeofeventid bigint, typeofeventdescription character varying, stagetypeid bigint, stagedescription character varying, eventdate date, eventtime time without time zone, expectedadultsattendance integer, expectedkidsattendance integer, emailaddress character varying, cellmobile character varying, telno character varying, adultmenutacos boolean, adultmenuchickenwrap boolean, adultmenuchickenkebab boolean, kidsmenuminipizzacheese boolean, kidsmenuminiminipizza boolean, kidsmenuminisliders boolean, kidsmenuminihandpie boolean, menudrinksicetea boolean, menudrinksorangejuice boolean, menudrinksapplejuice boolean, menudrinksfantaorange boolean, menudrinkscocacola boolean, menudrinksapricotjuice boolean, menudessertoreopudding boolean, menudessertoreoballs boolean, menudessertchurros boolean, menudessertdonuts boolean, menudessertmalva boolean, menudessertberry boolean, decoration boolean, themedetails character varying, addresstypeid bigint, streetnumber character varying, streetname character varying, complexbuilding character varying, surburb character varying, city character varying, zipcode character varying, province character varying, country character varying, quoteamount numeric, discountpercent numeric, finalquoteamount numeric, currentbalance numeric) 
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
+ 
 BEGIN
 	RETURN QUERY 
 		WITH RECURSIVE cte_payments AS (
     		SELECT bf.orderid, 	SUM(credit) AS runningBalance
     		FROM public.bookingDetailsTransactions bf
-			INNER JOIN public.bookingDetails od ON od.id = bf.orderid 
-    		WHERE od.stageId = statusId
 			GROUP BY bf.orderid
 		)
 		SELECT d.clientid, cl.name, cl.surname, cl.gender, cl.dateOfBirth, 
-		d.id as orderId, d.typeofEventId, d.eventDate, d.eventTime, d.expectedAdultsAttendance, d.expectedKidsAttendance, 
+		d.id as orderId, d.typeofEventId, tf.name as typeofEventName, d.stageId, osd.name as stageName , d.eventDate, d.eventTime, d.expectedAdultsAttendance, d.expectedKidsAttendance, 
 		d.emailAddress, d.cellMobile, d.telNo, 
 		d.adultMenuTacos, d.adultMenuChickenWrap, d.adultMenuChickenKebab, d.kidsMenuMiniPizzaCheese, d.kidsMenuMiniMiniPizza, d.kidsMenuMiniSliders, 
 		d.kidsMenuMiniHandpie, 
@@ -966,15 +1022,85 @@ BEGIN
 		d.menuDessertOreoPudding, d.menuDessertOreoBalls, d.menuDessertChurros, d.menuDessertDonuts, d.menuDessertMalva, d.menuDessertBerry, 
 		d.decoration, d.themeDetails, 
 		a.addressTypeId, a.streetNumber, a.streetName, a.complexBuilding, a.surburb, a.city, a.zipcode,a.province, a.country,
-		d.quotationAmount, d.discountpercentage, finalQuotationAmount, cp.runningBalance  
+		d.quotationAmount, d.discountpercentage, ROUND(finalQuotationAmount,2), coalesce(cp.runningBalance,0)
 		FROM public.bookingDetails d
 		INNER JOIN public.clients cl on cl.id = d.clientid
 		INNER JOIN public.bookingDetailsAddresses a on a.orderid = d.id
-		INNER JOIN public.orderStages ost ON ost.id = d.stageId
+		INNER JOIN public.typesofevents tf on tf.id = d.typeofeventid
+		INNER JOIN public.orderStages osd on osd.id = d.stageId 
 		LEFT JOIN cte_payments cp on cp.orderid = d.id
+		ORDER BY d.stageId, d.typeofEventId;		
+		 
+END;
+$BODY$;
+
+ALTER FUNCTION public.md_getallbookings()
+    OWNER TO postgres;
+
+
+
+
+
+
+
+
+
+
+
+
+-- FUNCTION: public.md_getbookingbyStage(bigint)
+
+-- DROP FUNCTION IF EXISTS public.md_getbookingbyStage(bigint);
+
+CREATE OR REPLACE FUNCTION public.md_getbookingbyStage(
+	stagetypeIdentifier bigint)
+    RETURNS TABLE(clientid bigint, name character varying, surname character varying, gender character varying, dateofbirth date, orderid bigint, typeofeventid bigint, typeofeventdescription character varying, stagetypeid bigint, stagedescription character varying, eventdate date, eventtime time without time zone, expectedadultsattendance integer, expectedkidsattendance integer, emailaddress character varying, cellmobile character varying, telno character varying, adultmenutacos boolean, adultmenuchickenwrap boolean, adultmenuchickenkebab boolean, kidsmenuminipizzacheese boolean, kidsmenuminiminipizza boolean, kidsmenuminisliders boolean, kidsmenuminihandpie boolean, menudrinksicetea boolean, menudrinksorangejuice boolean, menudrinksapplejuice boolean, menudrinksfantaorange boolean, menudrinkscocacola boolean, menudrinksapricotjuice boolean, menudessertoreopudding boolean, menudessertoreoballs boolean, menudessertchurros boolean, menudessertdonuts boolean, menudessertmalva boolean, menudessertberry boolean, decoration boolean, themedetails character varying, addresstypeid bigint, streetnumber character varying, streetname character varying, complexbuilding character varying, surburb character varying, city character varying, zipcode character varying, province character varying, country character varying, quoteamount numeric, discountpercent numeric, finalquoteamount numeric, currentbalance numeric) 
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
+ 
+BEGIN
+	RETURN QUERY 
+		WITH RECURSIVE cte_payments AS (
+    		SELECT bf.orderid, 	SUM(credit) AS runningBalance
+    		FROM public.bookingDetailsTransactions bf
+			INNER JOIN public.bookingDetails od ON od.id = bf.orderid 
+    		WHERE od.stageId = stagetypeIdentifier
+			GROUP BY bf.orderid
+		)
+		SELECT d.clientid, cl.name, cl.surname, cl.gender, cl.dateOfBirth, 
+		d.id as orderId, d.typeofEventId, tf.name as typeofEventName, d.stageId, osd.name as stageName , d.eventDate, d.eventTime, d.expectedAdultsAttendance, d.expectedKidsAttendance, 
+		d.emailAddress, d.cellMobile, d.telNo, 
+		d.adultMenuTacos, d.adultMenuChickenWrap, d.adultMenuChickenKebab, d.kidsMenuMiniPizzaCheese, d.kidsMenuMiniMiniPizza, d.kidsMenuMiniSliders, 
+		d.kidsMenuMiniHandpie, 
+		d.menuDrinksIcetea, d.menuDrinksOrangeJuice, d.menuDrinksAppleJuice, d.menuDrinksFantaOrange, d.menuDrinksCocacola, d.menuDrinksApricotJuice,
+		d.menuDessertOreoPudding, d.menuDessertOreoBalls, d.menuDessertChurros, d.menuDessertDonuts, d.menuDessertMalva, d.menuDessertBerry, 
+		d.decoration, d.themeDetails, 
+		a.addressTypeId, a.streetNumber, a.streetName, a.complexBuilding, a.surburb, a.city, a.zipcode,a.province, a.country,
+		d.quotationAmount, d.discountpercentage, ROUND(finalQuotationAmount,2), coalesce(cp.runningBalance,0)
+		FROM public.bookingDetails d
+		INNER JOIN public.clients cl on cl.id = d.clientid
+		INNER JOIN public.bookingDetailsAddresses a on a.orderid = d.id
+		INNER JOIN public.typesofevents tf on tf.id = d.typeofeventid
+		INNER JOIN public.orderStages osd on osd.id = d.stageId 
+		LEFT JOIN cte_payments cp on cp.orderid = d.id
+		
 		 WHERE 
 		 (
-		 	ost.id = statusId
+		 	osd.id = stagetypeIdentifier
 		 );
 END;
 $BODY$;
+
+ALTER FUNCTION public.md_getbookingbyStage(bigint)
+    OWNER TO postgres;
+
+
+
+
+
+
+

@@ -15,7 +15,8 @@ public class BookingModel {
 
     private ClientModel client;
     private Integer id;
-    private Integer typeofEvent;
+    private Integer typeofEventId;
+    private String typeOfEventDescription;
     private Date eventDate;
     private Time eventTime;
     private Integer attendingAdults = 0;
@@ -66,7 +67,7 @@ public class BookingModel {
     private String discountPercent;
     private String finalQuoteAmount;
     private String currentBalance;
-    private String stageId;
+    private Integer stageTypeId;
     private String stageDescription;
     private Date creationDate;
     
@@ -112,12 +113,12 @@ public class BookingModel {
         this.currentBalance = currentBalance;
     }
 
-    public String getStageId() {
-        return stageId;
+    public Integer getStageTypeId() {
+        return stageTypeId;
     }
 
-    public void setStageId(String stageId) {
-        this.stageId = stageId;
+    public void setStageTypeId(Integer stageTypeId) {
+        this.stageTypeId = stageTypeId;
     }
 
     public String getStageDescription() {
@@ -138,12 +139,20 @@ public class BookingModel {
         this.id = id;
     }
 
-    public Integer getTypeofEvent() {
-        return typeofEvent;
+    public Integer getTypeofEventId() {
+        return typeofEventId;
     }
 
-    public void setTypeofEvent(Integer typeofEvent) {
-        this.typeofEvent = typeofEvent;
+    public void setTypeofEventId(Integer typeofEventId) {
+        this.typeofEventId = typeofEventId;
+    }
+
+    public String getTypeOfEventDescription() {
+        return typeOfEventDescription;
+    }
+
+    public void setTypeOfEventDescription(String typeOfEventDescription) {
+        this.typeOfEventDescription = typeOfEventDescription;
     }
 
     public Date getEventDate() {

@@ -57,6 +57,7 @@ public class ClientsDao {
                 model.setName(result.getString("name"));
                 model.setSurname(result.getString("surname"));
                 model.setDateOfBirth(result.getDate("dateOfBirth"));
+                model.setRole("client");
 
                 response.setCode(200);
                 response.setStatus(true);
@@ -106,6 +107,7 @@ public class ClientsDao {
                 model.setName(result.getString("name"));
                 model.setSurname(result.getString("surname"));
                 model.setDateOfBirth(result.getDate("dateOfBirth"));
+                model.setRole("admin");
 
                 response.setCode(200);
                 response.setStatus(true);
@@ -142,26 +144,28 @@ public class ClientsDao {
         try {
 
             conn = context.createDbConnection();
-            String commandText = "call md_createAccount(fname => ?, fsurname => ?, fdateOfBirth => ?, fpasscode => ?, fsecuredPwd => ?, femail => ?, fcell => ?, fphone => ?, fclientId => ?, responseStatus => ?, responseCode => ?,  responseMessage => ?)";//,?,?,?,?
+            String commandText = "call md_createAccount(ftitle => ?, fname => ?, fsurname => ?, fdateOfBirth => ?, fgender => ?, fpasscode => ?, fsecuredPwd => ?, femail => ?, fcell => ?, fphone => ?, fclientId => ?, responseStatus => ?, responseCode => ?,  responseMessage => ?)";//,?,?,?,?
             CallableStatement statement = conn.prepareCall(commandText);
-            statement.setString(1, details.getName());
-            statement.setString(2, details.getSurname());
-            statement.setDate(3, details.getDateOfBirth());
-            statement.setString(4, details.getPasscode());
-            statement.setString(5, details.getSecuredPassword());
-            statement.setString(6, details.getEmail());
-            statement.setString(7, details.getCell());
-            statement.setString(8, details.getTel());
-            statement.registerOutParameter(9, Types.VARCHAR);
-            statement.registerOutParameter(10, Types.VARCHAR);
+            statement.setString(1, details.getTittle());
+            statement.setString(2, details.getName());
+            statement.setString(3, details.getSurname());
+            statement.setDate(4, details.getDateOfBirth());
+            statement.setString(5, details.getGender());
+            statement.setString(6, details.getPasscode());
+            statement.setString(7, details.getSecuredPassword());
+            statement.setString(8, details.getEmail());
+            statement.setString(9, details.getCell());
+            statement.setString(10, details.getTel());
             statement.registerOutParameter(11, Types.VARCHAR);
             statement.registerOutParameter(12, Types.VARCHAR);
+            statement.registerOutParameter(13, Types.VARCHAR);
+            statement.registerOutParameter(14, Types.VARCHAR);
             statement.execute();
 
-            details.setId(Integer.parseInt(statement.getString(9)));
-            response.setStatus(Boolean.parseBoolean(statement.getString(10)));
-            response.setCode(Integer.parseInt(statement.getString(11)));
-            response.setMessage(statement.getString(12));
+            details.setId(Integer.parseInt(statement.getString(11)));
+            response.setStatus(Boolean.parseBoolean(statement.getString(12)));
+            response.setCode(Integer.parseInt(statement.getString(13)));
+            response.setMessage(statement.getString(14));
 
             var address = details.getAddress();
 
@@ -199,7 +203,7 @@ public class ClientsDao {
             String commandText = "call public.md_createbooking(fclientId => ?, ftypeofEventId => ?, feventDate => ?, feventTime => ?, fexpectedAdultsAttendance => ?, fexpectedKidsAttendance => ?, femailAddress => ?, fcellMobile => ?, ftelNo => ?, fadultMenuTacos => ?, fadultMenuChickenWrap => ?, fadultMenuChickenKebab => ?, fkidsMenuMiniPizzaCheese => ?, fkidsMenuMiniMiniPizza => ?, fkidsMenuMiniSliders => ?, fkidsMenuMiniHandpie => ?, fmenuDrinksIcetea => ?, fmenuDrinksOrangeJuice => ?, fmenuDrinksAppleJuice => ?, fmenuDrinksFantaOrange => ?,  fmenuDrinksCocacola => ?,  fmenuDrinksApricotJuice => ?,  fmenuDessertOreoPudding => ?,  fmenuDessertOreoBalls => ?,  fmenuDessertChurros => ?,  fmenuDessertDonuts => ?,  fmenuDessertMalva => ?,  fmenuDessertBerry => ?,  fdecoration => ?, fthemeDetails => ?, faddressTypeId => ?, fstreetNumber => ?, fstreetName => ?, fcomplexBuilding => ?, fsurburb => ?, fcity => ?, fzipcode => ?, fprovince => ?, fcountry => ?, referenceNo => ?, responseStatus => ?, responseCode => ?,  responseMessage => ?)";
             CallableStatement statement = conn.prepareCall(commandText);
             statement.setInt(1, clientId);
-            statement.setInt(2, model.getTypeofEvent());
+            statement.setInt(2, model.getTypeofEventId());
             statement.setDate(3, model.getEventDate());
             statement.setTime(4, model.getEventTime());
             statement.setInt(5, model.getAttendingAdults());
@@ -275,11 +279,11 @@ public class ClientsDao {
         try {
 
             conn = context.createDbConnection();
-            String commandText = "call public.md_captureBookingPayments(bookingId => ?, paymentDate => ?, paymentAmount => ?, clientComments => ?, responseStatus => ?, responseCode => ?,  responseMessage => ?)";
+            String commandText = "call md_captureBookingPayments(bookingId => ?, paymentDate => ?, paymentAmount => ?, clientComments => ?, responseStatus => ?, responseCode => ?,  responseMessage => ?)";
             CallableStatement statement = conn.prepareCall(commandText);
             statement.setInt(1, model.getBookingId());
-            statement.setDate(2, model.getPaymentDate());
-            statement.setDouble(3, model.getPaymentAmount());
+            statement.setString(2, model.getPaymentDate().toString());
+            statement.setString(3, model.getPaymentAmount().toString());
             statement.setString(4, model.getClientComments());
             statement.registerOutParameter(5, Types.VARCHAR);
             statement.registerOutParameter(6, Types.VARCHAR);
@@ -330,7 +334,13 @@ public class ClientsDao {
                 booking.setClient(client);
 
                 booking.setId(result.getInt("orderId"));
-                booking.setTypeofEvent(result.getInt("typeofEventId"));
+                booking.setTypeofEventId(result.getInt("typeofEventId"));
+                booking.setTypeOfEventDescription(result.getString("typeOfEventDescription"));
+                
+                booking.setStageTypeId(result.getInt("stageTypeId"));
+                booking.setStageDescription(result.getString("stageDescription"));
+                
+                
                 booking.setEventDate(result.getDate("eventDate"));
                 booking.setEventTime(result.getTime("eventTime"));
                 booking.setAttendingAdults(result.getInt("expectedAdultsAttendance"));
@@ -404,4 +414,145 @@ public class ClientsDao {
         return response;
     }
 
+    
+    
+    public GenericResponse<FullBookingModel> getAllBookings() {
+
+        GenericResponse<FullBookingModel> response = new GenericResponse<>();
+        Connection conn = null;
+        try {
+            conn = context.createDbConnection();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM public.md_getallbookings();");
+            ResultSet result = statement.executeQuery();
+            List<BookingModel> bookings = new ArrayList<>();
+            while (result.next()) {
+                BookingModel booking = new BookingModel();
+                ClientModel client = new ClientModel();
+                client.setId(result.getInt("clientid"));
+                client.setName(result.getString("name"));
+                client.setSurname(result.getString("surname"));
+                client.setGender(result.getString("gender"));
+                client.setDateOfBirth(result.getDate("dateOfBirth"));
+                booking.setClient(client);
+
+                booking.setId(result.getInt("orderId"));
+                booking.setTypeofEventId(result.getInt("typeofEventId"));
+                booking.setTypeOfEventDescription(result.getString("typeOfEventDescription"));
+                
+                booking.setStageTypeId(result.getInt("stageTypeId"));
+                booking.setStageDescription(result.getString("stageDescription"));
+                
+                
+                booking.setEventDate(result.getDate("eventDate"));
+                booking.setEventTime(result.getTime("eventTime"));
+                booking.setAttendingAdults(result.getInt("expectedAdultsAttendance"));
+                booking.setAttendingKids(result.getInt("expectedKidsAttendance"));
+                booking.setEmailAddress(result.getString("emailAddress"));
+                booking.setCellMobile(result.getString("cellMobile"));
+                booking.setTelNo(result.getString("telNo"));
+                booking.setAdultMenuTacos(result.getBoolean("adultMenuTacos"));
+                booking.setAdultMenuTacos(result.getBoolean("adultMenuChickenWrap"));
+                booking.setAdultMenuTacos(result.getBoolean("adultMenuChickenKebab"));
+
+                booking.setAdultMenuTacos(result.getBoolean("kidsMenuMiniPizzaCheese"));
+                booking.setAdultMenuTacos(result.getBoolean("kidsMenuMiniMiniPizza"));
+                booking.setAdultMenuTacos(result.getBoolean("kidsMenuMiniSliders"));
+                booking.setAdultMenuTacos(result.getBoolean("kidsMenuMiniHandpie"));
+
+                booking.setAdultMenuTacos(result.getBoolean("menuDrinksIcetea"));
+                booking.setAdultMenuTacos(result.getBoolean("menuDrinksOrangeJuice"));
+                booking.setAdultMenuTacos(result.getBoolean("menuDrinksAppleJuice"));
+                booking.setAdultMenuTacos(result.getBoolean("menuDrinksFantaOrange"));
+                booking.setAdultMenuTacos(result.getBoolean("menuDrinksCocacola"));
+                booking.setAdultMenuTacos(result.getBoolean("menuDrinksApricotJuice"));
+                booking.setAdultMenuTacos(result.getBoolean("menuDessertOreoPudding"));
+                booking.setAdultMenuTacos(result.getBoolean("menuDessertOreoBalls"));
+                booking.setAdultMenuTacos(result.getBoolean("menuDessertChurros"));
+
+                booking.setAdultMenuTacos(result.getBoolean("menuDessertDonuts"));
+                booking.setAdultMenuTacos(result.getBoolean("menuDessertMalva"));
+                booking.setAdultMenuTacos(result.getBoolean("menuDessertBerry"));
+
+                booking.setAdultMenuTacos(result.getBoolean("decoration"));
+                booking.setThemeDetails(result.getString("themeDetails"));
+
+                booking.setQuoteAmount(result.getString("quoteAmount"));
+                booking.setDiscountPercent(result.getString("discountpercent"));
+                booking.setFinalQuoteAmount(result.getString("finalQuoteAmount"));
+                booking.setCurrentBalance(result.getString("currentBalance"));
+
+                bookings.add(booking);
+
+            }
+
+            if (!bookings.isEmpty()) {
+                FullBookingModel bookingResponseData = new FullBookingModel();
+                bookingResponseData.setBooking(bookings);
+                response.setCode(200);
+                response.setStatus(true);
+                response.setMessage("Successful");
+                response.setData(bookingResponseData);
+            } else {
+                response.setCode(404);
+                response.setStatus(false);
+                response.setMessage("No bookings found");
+            }
+
+        } catch (SQLException ex) {
+            response.setCode(500);
+            response.setStatus(false);
+            response.setMessage(ex.getMessage());
+        } catch (Exception ex) {
+            response.setCode(500);
+            response.setStatus(false);
+            response.setMessage(ex.getMessage());
+        } finally {
+            try {
+                context.closeDbConnection(conn);
+            } catch (Exception ex) {
+                Logger.getLogger(ClientsDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return response;
+    }
+    
+    
+    public GenericResponse<Boolean> cancelBooking(Integer bookingId){
+        
+        //"call public.md_cancelBooking(bookingId => ?, responsestatus => ?, responsecode => ?, responsemessage => ?);"
+        GenericResponse<Boolean> response = new GenericResponse<>();
+        Connection conn = null;
+        try {
+
+            conn = context.createDbConnection();
+            String commandText = "call public.md_cancelBooking(bookingId => ?, responsestatus => ?, responsecode => ?, responsemessage => ?);";
+            CallableStatement statement = conn.prepareCall(commandText);
+            statement.setInt(1, bookingId);
+            statement.registerOutParameter(2, Types.VARCHAR);
+            statement.registerOutParameter(3, Types.VARCHAR);
+            statement.registerOutParameter(4, Types.VARCHAR);
+
+            statement.execute();
+
+            response.setStatus(Boolean.parseBoolean(statement.getString(2)));
+            response.setCode(Integer.parseInt(statement.getString(3)));
+            response.setMessage(statement.getString(4));
+
+        } catch (SQLException ex) {
+            response.setCode(500);
+            response.setStatus(false);
+            response.setMessage(ex.getMessage());
+        } catch (Exception ex) {
+            response.setCode(500);
+            response.setStatus(false);
+            response.setMessage(ex.getMessage());
+        } finally {
+            try {
+                context.closeDbConnection(conn);
+            } catch (Exception ex) {
+                Logger.getLogger(ClientsDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return response;
+    }
 }

@@ -74,21 +74,42 @@ public class ManageBookingsController extends HttpServlet {
                             response.setContentType("application/json");
                             response.setCharacterEncoding("UTF-8");
                             response.getWriter().write(json);
-
-                        } 
-                        else if (transactiontype.equalsIgnoreCase("getClientBookings")) {
+                        } else if (transactiontype.equalsIgnoreCase("getClientBookings")) {
                             GenericResponse<FullBookingModel> bookingsResponse = new GenericResponse<>();
                             bookingsResponse = dao.getBookingsByClient(client.getId());
                             String json = new Gson().toJson(bookingsResponse);
                             response.setContentType("application/json");
                             response.setCharacterEncoding("UTF-8");
                             response.getWriter().write(json);
+                        } else if (transactiontype.equalsIgnoreCase("getAdminBookings")) {
+                            GenericResponse<FullBookingModel> bookingsResponse = new GenericResponse<>();
+                            bookingsResponse = dao.getAllBookings();
+                            String json = new Gson().toJson(bookingsResponse);
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.getWriter().write(json);
                         }
                     } else {
-                        GenericResponse<BookingPaymentModel> paymentResponse = new GenericResponse<>();
-                        paymentResponse.setStatus(true);
-                        paymentResponse.setCode(200);
-                        paymentResponse.setMessage("Authenticated");
+                        var transactiontype = request.getParameter("transactionType");
+                        if (transactiontype.equalsIgnoreCase("getAdminBookings")) {
+                            GenericResponse<FullBookingModel> bookingsResponse = new GenericResponse<>();
+                            bookingsResponse = dao.getAllBookings();
+                            String json = new Gson().toJson(bookingsResponse);
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.getWriter().write(json);
+                        } else {
+
+                            GenericResponse<BookingPaymentModel> paymentResponse = new GenericResponse<>();
+                            paymentResponse.setStatus(true);
+                            paymentResponse.setCode(403);
+                            paymentResponse.setMessage("Incorrect Api call.");
+                            String json = new Gson().toJson(paymentResponse);
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.getWriter().write(json);
+
+                        }
                     }
                 }
             }
@@ -150,6 +171,14 @@ public class ManageBookingsController extends HttpServlet {
                             response.setCharacterEncoding("UTF-8");
                             response.getWriter().write(json);
 
+                        } else if (transactiontype.equalsIgnoreCase("cancelBooking")) {
+                            GenericResponse<Boolean> cancelBookingResponse = new GenericResponse<>();
+                            var bookingId = Integer.parseInt(request.getParameter("txtBookingId"));
+                            cancelBookingResponse = dao.cancelBooking(bookingId);
+                            String json = new Gson().toJson(cancelBookingResponse);
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.getWriter().write(json);
                         }
                     } else {
                         GenericResponse<BookingPaymentModel> paymentResponse = new GenericResponse<>();
