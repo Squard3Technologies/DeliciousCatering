@@ -70,26 +70,26 @@ $(document).ready(function () {
 });
 
 
-function cancelBooking(button){
+function cancelBooking(button) {
     let bookingId = $(button).attr("data-bid");
     Swal.fire({
-    title: 'ARE YOU SURE?',
-    text: "You want to cancel the booking. You will then need to contact the office to facilitate for a refund.",
-    type: 'question',
-    width: 500,
-    showCancelButton: true,
-    cancelButtonColor: '#6c757d',
-    confirmButtonColor: '#004C8E',
-    cancelButtonText: 'No',
-    confirmButtonText: 'Yes',
-    allowOutsideClick: false,
-    reverseButtons: true
-}).then((result) => {
-    Swal.close();
-    if (result.value) {
-        cancelBookingAsync(bookingId);
-    }
-});
+        title: 'ARE YOU SURE?',
+        text: "You want to cancel the booking. You will then need to contact the office to facilitate for a refund.",
+        type: 'question',
+        width: 500,
+        showCancelButton: true,
+        cancelButtonColor: '#6c757d',
+        confirmButtonColor: '#004C8E',
+        cancelButtonText: 'No',
+        confirmButtonText: 'Yes',
+        allowOutsideClick: false,
+        reverseButtons: true
+    }).then((result) => {
+        Swal.close();
+        if (result.value) {
+            cancelBookingAsync(bookingId);
+        }
+    });
 }
 
 
@@ -110,7 +110,7 @@ function showPaymentModal(bookingId) {
 }
 
 
-function cancelBookingAsync(bookingId){
+function cancelBookingAsync(bookingId) {
     const params = {
         transactionType: "cancelBooking",
         txtBookingId: bookingId
@@ -200,17 +200,17 @@ function loadBookings() {
                 $.each(bookings, function (i, item) {
                     console.log(item);
                     let disablepayment = "";
-                    if(item.stageTypeId === 6 || item.stageTypeId === 7){
+                    if (item.stageTypeId === 6 || item.stageTypeId === 7) {
                         disablepayment = 'disabled="disabled"';
                     }
-                    
+
                     let oldbalance = parseInt(item.finalQuoteAmount);
                     let newbalance = parseInt(item.currentBalance);
-                    
-                    if(oldbalance <= newbalance){
+
+                    if (oldbalance <= newbalance) {
                         disablepayment = 'disabled="disabled"';
                     }
-                    
+
                     let newRow = table.insertRow(table.rows.length);
                     newRow.insertCell(0).innerHTML = item.id;
                     newRow.insertCell(1).innerHTML = item.typeOfEventDescription;
@@ -224,7 +224,7 @@ function loadBookings() {
                     newRow.insertCell(9).innerHTML =
                             '<button type="button" class="btn btn-sm btn-danger" onclick="cancelBooking(this)" data-bid="' + item.id + '" ><i class="fa-solid fa-calendar-xmark"></i></button> &nbsp;&nbsp;' +
                             //'<button type="button" class="btn btn-sm btn-primary" onclick="PaymentView(this)" data-bid="' + item.id + '" ><i class="fa-solid fa-pen-to-square"></i></button> &nbsp;&nbsp;' +
-                            '<button type="button" class="btn btn-sm btn-success" onclick="paymentView(this)" data-bid="' + item.id + '" '+disablepayment+'><i class="fa-solid fa-hand-holding-dollar"></i></button>';
+                            '<button type="button" class="btn btn-sm btn-success" onclick="paymentView(this)" data-bid="' + item.id + '" ' + disablepayment + '><i class="fa-solid fa-hand-holding-dollar"></i></button>';
 
                 });
             } else {

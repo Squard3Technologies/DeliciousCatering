@@ -715,6 +715,16 @@ BEGIN
 			);
 		END IF;
 
+		IF femail IS NOT NULL AND femail <> '' THEN
+			INSERT INTO emails(clientid, emailTypeId, emailAddress, isprimary)
+			SELECT pfclientId, 1, femail, true
+			WHERE
+			NOT EXISTS 
+			(
+				SELECT id FROM emails e WHERE e.clientId = pfclientId AND e.emailTypeId = 1
+			);
+		END IF;
+
 		fclientId := pfclientId;
 		responseStatus := true;
 		responseCode := 200;		
@@ -739,7 +749,6 @@ END;
 $BODY$;
 ALTER PROCEDURE public.md_createaccount(ftitle character varying, character varying, character varying, timestamp without time zone, fgender character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying, character varying)
     OWNER TO postgres;
-
 
 
 
