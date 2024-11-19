@@ -1,8 +1,10 @@
-
-
-
-
-
+CREATE USER prgadmin WITH PASSWORD 'Pass123';
+ 
+ALTER USER prgadmin WITH SUPERUSER;
+ 
+CREATE DATABASE deliciouscatering;
+ 
+GRANT ALL PRIVILEGES ON DATABASE deliciouscatering TO prgadmin;
 
 
 CREATE TABLE IF NOT EXISTS typesofevents
