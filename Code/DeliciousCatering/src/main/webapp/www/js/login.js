@@ -30,14 +30,19 @@ $(document).ready(function () {
                 console.log(data);
                 if (data.status) {
                     Swal.close();
-                    location.href = "/DeliciousCatering/dashboard.html";
+                    if (data.data.Role === "Client") {
+                        location.href = "/DeliciousCatering/clientdashboard.html";
+                    } 
+                    else if (data.data.Role === "Admin") {
+                        location.href = "/DeliciousCatering/dashboard.html";
+                    }
                 } else {
                     Swal.close();
                     Swal.fire({
-                        title: 'SUCCESS',
+                        title: 'ERROR',
                         html: data.message,
-                        type: 'success',
-                        width: 1100,
+                        type: 'error',
+                        width: 500,
                         showCancelButton: false,
                         confirmButtonText: 'Dismiss',
                         allowOutsideClick: false,

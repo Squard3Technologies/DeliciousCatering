@@ -16,15 +16,29 @@ body{
     background-image: url("https://img.freepik.com/premium-photo/elegant-new-year-s-day-doodle-page-print-border-design-with-blank-empty-space-mock-up-background_938957-44600.jpg") !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
-     display: flex;
-    justify-content: center;
-    align-items: center;
+/*     display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
     min-height: 100vh;
     margin: 0;
 }
 
+.nav-header-bg-primary{
+    background-color:#004C8E !important;
+}
+
 .form-check-input{
     border: solid 1px #000000 !important;
+}
+
+
+.btn-enabled{
+    cursor: allowed;
+}
+
+.btn-disabled{
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 
@@ -40,6 +54,7 @@ body{
     width: 400px; 
     height: 300px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #007bff;
@@ -50,6 +65,12 @@ body{
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     cursor: pointer; 
     transition: transform 0.2s, box-shadow 0.2s; 
+    text-align: center;
+}
+
+.tile i {
+    font-size: 50px;
+    margin-bottom: 15px;
 }
 
 .tile:hover {
