@@ -11,8 +11,12 @@ public class ClientModel {
     private Integer id;
     private String name;
     private String surname;
+    private String gender;    
     private Date dateOfBirth;
     private Date lastLogin;
+    private String Role = "";
+
+    
 
     public ClientModel() {
     }
@@ -51,6 +55,15 @@ public class ClientModel {
         this.surname = surname;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+    
+    
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
@@ -65,5 +78,13 @@ public class ClientModel {
 
     public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
+    }
+    
+    public String getRole() {
+        return Role;
+    }
+
+    public void setRole(String Role) {
+        this.Role = Role;
     }
 }

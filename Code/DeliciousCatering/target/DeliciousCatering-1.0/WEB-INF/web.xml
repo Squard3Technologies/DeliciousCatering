@@ -2,15 +2,19 @@
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <servlet>
         <servlet-name>clientAuth</servlet-name>
-        <servlet-class>com.vusieam.academics.deliciouscatering.domain.controllers.ClientAuthServlet</servlet-class>
+        <servlet-class>com.vusieam.academics.deliciouscatering.domain.controllers.AuthenticationController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>createAccount</servlet-name>
         <servlet-class>com.vusieam.academics.deliciouscatering.domain.controllers.CreateAccountController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>bookings</servlet-name>
-        <servlet-class>com.vusieam.academics.deliciouscatering.domain.controllers.BookingsController</servlet-class>
+        <servlet-name>createBookings</servlet-name>
+        <servlet-class>com.vusieam.academics.deliciouscatering.domain.controllers.CreateBookingsController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>manageBookings</servlet-name>
+        <servlet-class>com.vusieam.academics.deliciouscatering.domain.controllers.ManageBookingsController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>clientAuth</servlet-name>
@@ -21,8 +25,12 @@
         <url-pattern>/createAccount</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>bookings</servlet-name>
-        <url-pattern>/bookings</url-pattern>
+        <servlet-name>createBookings</servlet-name>
+        <url-pattern>/createBookings</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>manageBookings</servlet-name>
+        <url-pattern>/manageBookings</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

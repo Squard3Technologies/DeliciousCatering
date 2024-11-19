@@ -12,9 +12,11 @@ import java.sql.Time;
  * @author vusi
  */
 public class BookingModel {
-    
+
+    private ClientModel client;
     private Integer id;
-    private Integer typeofEvent;
+    private Integer typeofEventId;
+    private String typeOfEventDescription;
     private Date eventDate;
     private Time eventTime;
     private Integer attendingAdults = 0;
@@ -33,39 +35,100 @@ public class BookingModel {
     private String country = "";
     
     //Menus
-    private Boolean adultMenuTacos;
-    private Boolean adultMenuChickenWrap;
-    private Boolean adultMenuChickenKebab;
-    private Boolean kidsMenuMiniPizzaCheese;
-    private Boolean kidsMenuMiniMiniPizza;
-    private Boolean kidsMenuMiniSliders;
-    private Boolean kidsMenuMiniHandpie;
+    private Boolean adultMenuTacos = false;
+    private Boolean adultMenuChickenWrap = false;
+    private Boolean adultMenuChickenKebab = false;
+    private Boolean kidsMenuMiniPizzaCheese = false;
+    private Boolean kidsMenuMiniMiniPizza = false;
+    private Boolean kidsMenuMiniSliders = false;
+    private Boolean kidsMenuMiniHandpie = false;
     
     //Drinks
-    private Boolean menuDrinksIcetea;
-    private Boolean menuDrinksOrangeJuice;
-    private Boolean menuDrinksAppleJuice;
-    private Boolean menuDrinksFantaOrange;
-    private Boolean menuDrinksCocacola;
-    private Boolean menuDrinksApricotJuice;
+    private Boolean menuDrinksIcetea = false;
+    private Boolean menuDrinksOrangeJuice = false;
+    private Boolean menuDrinksAppleJuice = false;
+    private Boolean menuDrinksFantaOrange = false;
+    private Boolean menuDrinksCocacola = false;
+    private Boolean menuDrinksApricotJuice = false;
     
     //Dessert
-    private Boolean menuDessertOreoPudding;
-    private Boolean menuDessertOreoBalls;
-    private Boolean menuDessertChurros;
-    private Boolean menuDessertDonuts;
-    private Boolean menuDessertMalva;
-    private Boolean menuDessertBerry;
+    private Boolean menuDessertOreoPudding = false;
+    private Boolean menuDessertOreoBalls = false;
+    private Boolean menuDessertChurros = false;
+    private Boolean menuDessertDonuts = false;
+    private Boolean menuDessertMalva = false;
+    private Boolean menuDessertBerry = false;
     
     
-    private Boolean decorNeeded;
+    private Boolean decorNeeded = false;
     private String themeDetails;
     
-    private String totalCost;
-    private String stage;
+    private String quoteAmount;
+    private String discountPercent;
+    private String finalQuoteAmount;
+    private String currentBalance;
+    private Integer stageTypeId;
+    private String stageDescription;
     private Date creationDate;
-
     
+    
+    public ClientModel getClient() {
+        return client;
+    }
+
+    public void setClient(ClientModel client) {
+        this.client = client;
+    }
+    
+
+    public String getQuoteAmount() {
+        return quoteAmount;
+    }
+
+    public void setQuoteAmount(String quoteAmount) {
+        this.quoteAmount = quoteAmount;
+    }
+
+    public String getDiscountPercent() {
+        return discountPercent;
+    }
+
+    public void setDiscountPercent(String discountPercent) {
+        this.discountPercent = discountPercent;
+    }
+
+    public String getFinalQuoteAmount() {
+        return finalQuoteAmount;
+    }
+
+    public void setFinalQuoteAmount(String finalQuoteAmount) {
+        this.finalQuoteAmount = finalQuoteAmount;
+    }
+
+    public String getCurrentBalance() {
+        return currentBalance;
+    }
+
+    public void setCurrentBalance(String currentBalance) {
+        this.currentBalance = currentBalance;
+    }
+
+    public Integer getStageTypeId() {
+        return stageTypeId;
+    }
+
+    public void setStageTypeId(Integer stageTypeId) {
+        this.stageTypeId = stageTypeId;
+    }
+
+    public String getStageDescription() {
+        return stageDescription;
+    }
+
+    public void setStageDescription(String stageDescription) {
+        this.stageDescription = stageDescription;
+    }
+
     
 
     public Integer getId() {
@@ -76,12 +139,20 @@ public class BookingModel {
         this.id = id;
     }
 
-    public Integer getTypeofEvent() {
-        return typeofEvent;
+    public Integer getTypeofEventId() {
+        return typeofEventId;
     }
 
-    public void setTypeofEvent(Integer typeofEvent) {
-        this.typeofEvent = typeofEvent;
+    public void setTypeofEventId(Integer typeofEventId) {
+        this.typeofEventId = typeofEventId;
+    }
+
+    public String getTypeOfEventDescription() {
+        return typeOfEventDescription;
+    }
+
+    public void setTypeOfEventDescription(String typeOfEventDescription) {
+        this.typeOfEventDescription = typeOfEventDescription;
     }
 
     public Date getEventDate() {
@@ -380,22 +451,7 @@ public class BookingModel {
         this.themeDetails = themeDetails;
     }
 
-    public String getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(String totalCost) {
-        this.totalCost = totalCost;
-    }
-
-    public String getStage() {
-        return stage;
-    }
-
-    public void setStage(String stage) {
-        this.stage = stage;
-    }
-
+    
     public Date getCreationDate() {
         return creationDate;
     }

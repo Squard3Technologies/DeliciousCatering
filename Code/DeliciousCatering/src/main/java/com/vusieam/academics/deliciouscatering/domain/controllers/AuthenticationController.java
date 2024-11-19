@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author vusi
  */
-public class ClientAuthServlet extends HttpServlet {
+public class AuthenticationController extends HttpServlet {
 
     private final ClientsDao dao = new ClientsDao();
 
@@ -40,14 +40,12 @@ public class ClientAuthServlet extends HttpServlet {
             authenticated.setStatus(false);
             authenticated.setCode(403);
             authenticated.setMessage("Session may have expired, please login.");
-        } 
-        else {
+        } else {
             if (session.getAttribute("clientProfile") == null) {
                 authenticated.setStatus(false);
                 authenticated.setCode(403);
                 authenticated.setMessage("Session may have expired, please login.");
-            } 
-            else {
+            } else {
                 String userJson = (String) session.getAttribute("clientProfile");
                 ClientModel client = new Gson().fromJson(userJson, ClientModel.class);
                 authenticated.setStatus(true);
@@ -77,16 +75,50 @@ public class ClientAuthServlet extends HttpServlet {
 
         String username = request.getParameter("txtUsername");
         String password = request.getParameter("txtPassword");
-        var authResponse = dao.clientAuthAsync(username, password);
-        if (authResponse.getStatus()) {
-            String sessionUserJson = new Gson().toJson(authResponse.getData());
-            HttpSession session = request.getSession();
-            session.setAttribute("clientProfile", sessionUserJson);
+        String accessType = request.getParameter("txtAccessType");
+
+        //Client login
+        if (accessType.equalsIgnoreCase("7B6D67CA-D13B-4A21-A1D9-305183C2723B")) {
+            var authResponse = dao.clientAuthAsync(username, password);
+            if (authResponse.getStatus()) {
+                authResponse.getData().setRole("Client");
+                String sessionUserJson = new Gson().toJson(authResponse.getData());
+                HttpSession session = request.getSession();
+                session.setAttribute("clientProfile", sessionUserJson);
+                session.setAttribute("role", "client");
+            }
+            String json = new Gson().toJson(authResponse);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+        } 
+        else if (accessType.equalsIgnoreCase("5B90DCF2-80CF-4C4F-A5B3-0F6C533699B0")) {
+            //Administrator login
+            var authResponse = dao.adminAuthAsync(username, password);
+            if (authResponse.getStatus()) {
+                authResponse.getData().setRole("Admin");
+                String sessionUserJson = new Gson().toJson(authResponse.getData());
+                HttpSession session = request.getSession();
+                session.setAttribute("clientProfile", sessionUserJson);
+                session.setAttribute("role", "admin");
+            }
+            String json = new Gson().toJson(authResponse);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+        } 
+        else {
+            GenericResponse<ClientModel> authResponse = new GenericResponse<>();
+            authResponse.setCode(403);
+            authResponse.setStatus(false);
+            authResponse.setMessage("Login failed. incorrect access type");
+            
+            String json = new Gson().toJson(authResponse);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
         }
-        String json = new Gson().toJson(authResponse);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(json);
+
     }
 
     /**
